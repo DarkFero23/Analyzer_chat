@@ -1,0 +1,299 @@
+body {
+  background: linear-gradient(120deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+  background-size: 300% 300%;
+  animation: smoothGradient 6s linear infinite alternate;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+  color: white;
+}
+
+@keyframes smoothGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.min-h-screen {
+  min-height: 100vh;
+  overflow-y: auto; /* Permitir desplazamiento vertical */
+  width: 100%;
+}
+
+/* Botones vibrantes con tonos inspirados en Instagram */
+button {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espaciado entre íconos y texto */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+/* Falta ahcer lo del incicio */
+
+.container {
+  text-align: center;
+  padding: 40px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 18px;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+/* Estilo del input de archivo */
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: block;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.file-label:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #0072ff, #00c6ff);
+}
+
+/* Botón de subida */
+.upload-button {
+  background: linear-gradient(45deg, #28a745, #218838);
+  color: white;
+  font-size: 18px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+/* Estilo de carga */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+
+/* Más botones de colores vibrantes */
+.btn-green { background: linear-gradient(45deg, #00ff87, #008557); }
+.btn-purple { background: linear-gradient(45deg, #a855f7, #6b21a8); }
+.btn-red { background: linear-gradient(45deg, #e63946, #b71c1c); }
+.btn-blue { background: linear-gradient(45deg, #009ffd, #0056b3); }
+.btn-yellow { background: linear-gradient(45deg, #ffcc00, #ff9900); }
+.btn-orange { background: linear-gradient(45deg, #ff6b35, #ff4500); }
+.btn-pink { background: linear-gradient(45deg, #ff6ec4, #ff3b78); }
+.btn-cyan { background: linear-gradient(45deg, #00c6ff, #0072ff); }
+
+/* Contenedor con botones en fila y espacio adecuado */
+.mt-6 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px; /* Agregar margen inferior */
+
+}
+
+/* Spinner de carga */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-left-color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tarjetas para estadísticas y mensajes */
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 16px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.card-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Inputs */
+input[type="date"] {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="date"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Contenedor de imágenes */
+.image-container img {
+  width: 100%;
+  max-width: 300px; 
+  max-height: 400px; /* Ajusta este valor según tu diseño */
+  height: auto;
+  object-fit: contain;
+}
+
+/* Botones en la parte superior fija */
+.fixed-buttons {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 1000;
+}
+
+
+/* Pantalla de carga */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.loading-screen .spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-left-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.loading-screen .message {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.title-S {
+  font-size: 50px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  background: linear-gradient(45deg, #ffcc00, #ff6600, #ff0033, #cc00ff, #6600ff);
+  -webkit-background-clip: text;
+  color: white; /* ✅ Mantiene el color visible */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.description-S {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #ffffff, #ffcc00, #ff4500);
+  -webkit-background-clip: text;
+  color: white; /* ✅ Texto más sólido */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Animación de brillo */
+@keyframes glowText {
+  0% { text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8), 0px 0px 10px #ff007f; }
+  100% { text-shadow: 6px 6px 12px rgba(0, 0, 0, 1), 0px 0px 15px #ff007f; }
+}
+
+/* Animación de pulso */
+@keyframes pulseText {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}

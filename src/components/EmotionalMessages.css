@@ -1,0 +1,53 @@
+.emotional-container {
+    background-color: #2c3e50;
+    color: rgb(0, 0, 0);
+    padding: 16px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .emotional-section {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .positivos {
+    background-color: #27ae60; /* Verde */
+  }
+  
+  .negativos {
+    background-color: #e74c3c; /* Rojo */
+  }
+  
+  h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  
+  .fecha {
+    font-size: 12px;
+    color: #040404;
+    margin-left: 6px;
+  }
+  
