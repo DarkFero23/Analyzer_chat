@@ -52,43 +52,42 @@ const handleFileChange = (e) => {
   // Función para subir el archivo
   const handleUploadFile = async () => {
     if (!file) return Swal.fire("Selecciona un archivo.", "", "warning");
-    
-    setLoading(true); // Inicia la carga
-    setFileUploaded(false); // Desactiva la visibilidad de los botones mientras se sube el archivo
-
+  
+    setLoading(true);
+    setFileUploaded(false);
+  
     const formData = new FormData();
     formData.append("file", file);
   
     try {
-      const response = await axios.post(`${API_URL}/upload`, formData);
+      const response = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        body: formData
+      });
   
-      if (response.data.user_token) {
-        setUserToken(response.data.user_token); // Guardamos el user_token
+      const data = await response.json();
+      
+      if (data.user_token) {
+        setUserToken(data.user_token);
       }
   
-      Swal.fire(response.data.message || response.data.error, "", response.data.error ? "error" : "success");
-      setFileUploaded(true); // Los botones ya se pueden mostrar
+      Swal.fire(data.message || data.error, "", data.error ? "error" : "success");
+      setFileUploaded(true);
     } catch (error) {
-      console.error("Error al subir el archivo" , error);
-      Swal.fire("Error al subir el archivo. Por favor, inténtalo de nuevo. Solo se pueden subir chats de Wats", "", "error");
-      setFile(null); // Restablece el archivo para permitir un nuevo intento
+      console.error("Error al subir el archivo", error);
+      Swal.fire("Error al subir el archivo. Inténtalo de nuevo.", "", "error");
+      setFile(null);
     } finally {
-      setLoading(false); // Detenemos la carga
+      setLoading(false);
     }
   };
   const fetchData = async (fetchFunction) => {
     setFetchingData(true);
     try {
       const data = await fetchFunction();
-  
-      if (!data || Object.keys(data).length === 0) {
-        console.warn("⚠ No hay datos válidos para actualizar content.");
-        return;
-      }
-  
       setContent(data);
     } catch (error) {
-      console.error("❌ Error fetching data:", error);
+      console.error("Error fetching data:", error);
       Swal.fire("Error al obtener los datos. Por favor, inténtalo de nuevo.", "", "error");
     } finally {
       setFetchingData(false);
