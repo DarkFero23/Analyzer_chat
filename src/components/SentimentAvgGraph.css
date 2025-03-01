@@ -1,0 +1,134 @@
+.sentimiento-promedio {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+}
+
+.sentimiento-promedio h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+}
+
+.fetch-btn {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #008557;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fetch-btn:hover {
+  background-color: #006f44;
+}
+
+.error-message {
+  color: #e93938;
+  text-align: center;
+  font-size: 16px;
+}
+
+.sentimiento-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.sentimiento-table th,
+.sentimiento-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.sentimiento-table th {
+  background-color: #008557;
+  color: white;
+  font-weight: bold;
+}
+
+.sentimiento-table td {
+  font-size: 14px;
+}
+
+.sentimiento-table .positivo {
+  background-color: #d4edda;
+}
+
+.sentimiento-table .negativo {
+  background-color: #f8d7da;
+}
+
+.sentimiento-table tr:hover {
+  background-color: #f1f1f1;
+}
+.custom-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-box {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.good-vibes {
+  background-color: #4caf50; /* Verde */
+}
+
+.neutral-vibes {
+  background-color: #ffca28; /* Amarillo */
+}
+
+.bad-vibes {
+  background-color: #e93938; /* Rojo */
+}
+
+.legend-text {
+  font-size: 14px;
+  color: #333;
+}
+/* Estilos para el tooltip */
+.custom-tooltip {
+  font-size: 16px; /* Aumenta el tamaño del texto */
+  padding: 12px; /* Espacio interno */
+  background-color: white; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde gris */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+  color: #333; /* Color del texto */
+  text-align: center; /* Centrar el texto */
+  width: auto; /* Ajusta el ancho según el contenido */
+  max-width: 200px; /* Máximo ancho para evitar que sea muy grande */
+}
+
+/* Ajuste del contenedor interno del tooltip */
+.custom-tooltip .recharts-tooltip-item {
+  font-weight: bold; /* Hace que el texto se vea más fuerte */
+  padding: 5px 0; /* Espacio interno */
+}
+
+/* Si necesitas que el fondo del tooltip cambie para valores negativos */
+.custom-tooltip .recharts-tooltip-item.negative {
+  color: #e93938; /* Rojo para valores negativos */
+}
+
+.custom-tooltip .recharts-tooltip-item.positive {
+  color: #4caf50; /* Verde para valores positivos */
+}

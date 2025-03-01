@@ -1,0 +1,64 @@
+.timeline-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+}
+
+/* 🏆 Espacio para el gráfico */
+.chart-content {
+  flex: 3;
+}
+
+/* 📅 Leyenda ahora ocupa un espacio a la derecha */
+.legend-box {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.legend-box h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.legend-section {
+  margin-top: 10px;
+}
+
+.legend-title {
+  font-size: 14px;
+  color: #222;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.legend-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-box li {
+  font-size: 13px;
+  padding: 3px 0;
+}
+
+.top-day {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.bottom-day {
+  color: #0000ff;
+  font-weight: bold;
+}

@@ -4,24 +4,42 @@ import ChatStats from "./components/ChatStats";
 import TopWords from "./components/TopWords";
 import EmotionalMessages from "./components/EmotionalMessages";
 import SentimentStats from "./components/SentimentStats";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import OffensiveWords from "./components/OffensiveWords";
-import withReactContent from 'sweetalert2-react-content';
+import withReactContent from "sweetalert2-react-content";
 import EmojiChart from "./components/EmojiChart";
+import "./index.css"; // Asegúrate de importar los estilos
+import ActivityChart from "./components/ActivityChart";
+import TopActiveDaysChart from "./components/TopActiveDaysChart";
+import MessagesByYearChart from "./components/MessagesByYearChart";
+import MessagesByMonthChart from "./components/MessagesByMonthChart";
+import TimelineChart from "./components/TimelineChart";
+import MessagesTimeline from "./components/MessagesTimeline";
+import WordCloudChart from "./components/WordCloudChart";
+import SentimentAvgGraph from "./components/SentimentAvgGraph";
+import EvolucionSentimientosChart from "./components/EvolucionSentimientosChart";
+import HorasMensajesChart from "./components/HorasMensajesChart";
 
-//LOCAL
-//const API_URL = "http://localhost:5000"; 
+//const API_URL = "http://localhost:5000";
 //RENDER
-const API_URL = "https://analyzer-chat-back.onrender.com"; 
+const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
 
 function App() {
-  const [topEmojis, setTopEmojis] = useState(null);  // Estado inicial
+  const [wordCloudData, setWordCloudData] = useState([]);
+
+  const [data, setData] = useState({ timeline: [], top_days: [] }); // ✅ Inicializa `top_days` como array vacío
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState(""); // Estado para el título
+  const [activeComponent, setActiveComponent] = useState(null);
+  const [topEmojis, setTopEmojis] = useState(null); // Estado inicial
   const [topEmojisPorUsuario, setTopEmojisPorUsuario] = useState(null); // Estado inicial
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
-  const [graficoEvolucionSentimientos, setGraficoEvolucionSentimientos] = useState(null);
+  const [graficoEvolucionSentimientos, setGraficoEvolucionSentimientos] =
+    useState(null);
   const [content, setContent] = useState(null);
   const [sentimentData, setSentimentData] = useState(null);
   const [topPalabras, setTopPalabras] = useState(null);
@@ -42,37 +60,46 @@ function App() {
   const [userToken, setUserToken] = useState(null); // Guardamos el user_token dinámico
   const [wordCloud, setWordCloud] = useState(null);
   const [fetchingData, setFetchingData] = useState(false);
-  
 
-  
+  const handleButtonClick = () => {
+    fetchData(fetchWordCloud, "📅 Nube de Palabras"); // 🔹 Llamar a fetchData
+    setShowDatePicker(true); // 🔹 Mostrar el input cuando se haga clic en el botón
+  };
+
   // Función para manejar la selección de archivo
-const handleFileChange = (e) => {
-  setFile(e.target.files[0]);
-};
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   // Función para subir el archivo
   const handleUploadFile = async () => {
     if (!file) return Swal.fire("Selecciona un archivo.", "", "warning");
-  
+
     setLoading(true);
     setFileUploaded(false);
-  
+    setShowMessage(false); // Mostramos el mensaje después de subir el archivo
+
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
       const response = await fetch(`${API_URL}/upload`, {
         method: "POST",
-        body: formData
+        body: formData,
       });
-  
+
       const data = await response.json();
-      
+
       if (data.user_token) {
         setUserToken(data.user_token);
       }
-  
-      Swal.fire(data.message || data.error, "", data.error ? "error" : "success");
+
+      Swal.fire(
+        data.message || data.error,
+        "",
+        data.error ? "error" : "success"
+      );
       setFileUploaded(true);
+      setShowMessage(true); // Mostramos el mensaje después de subir el archivo
     } catch (error) {
       console.error("Error al subir el archivo", error);
       Swal.fire("Error al subir el archivo. Inténtalo de nuevo.", "", "error");
@@ -81,97 +108,108 @@ const handleFileChange = (e) => {
       setLoading(false);
     }
   };
-  const fetchData = async (fetchFunction) => {
+
+  const fetchData = async (fetchFunction, title) => {
     setFetchingData(true);
+    setSelectedTitle(title); // Actualizar el título antes de hacer la petición
+    setShowMessage(false); // Ocultamos el mensaje cuando el usuario hace clic en un botón
+
     try {
       const data = await fetchFunction();
       setContent(data);
     } catch (error) {
       console.error("Error fetching data:", error);
-      Swal.fire("Error al obtener los datos. Por favor, inténtalo de nuevo.", "", "error");
+      Swal.fire(
+        "Error al obtener los datos. Por favor, inténtalo de nuevo.",
+        "",
+        "error"
+      );
     } finally {
       setFetchingData(false);
     }
   };
+
   const fetchStats = async () => {
     if (!userToken) {
-      Swal.fire("No hay user_token disponible. Sube un archivo primero.", "", "warning");
+      Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
-  
+
     try {
-      const response = await axios.get(`${API_URL}/get_statistics?user_token=${userToken}`);
+      const response = await axios.get(
+        `${API_URL}/get_statistics?user_token=${userToken}`
+      );
       return response.data;
     } catch (error) {
-      console.error("❌ Error al obtener estadísticas:", error.response?.data || error.message);
+      console.error(
+        "❌ Error al obtener estadísticas:",
+        error.response?.data || error.message
+      );
       Swal.fire("⚠️ No se pudieron obtener las estadísticas.", "", "error");
     }
   };
-  
-
-  const fetchWordCloud = async () => {
-    if (!fecha) {
-      Swal.fire("Selecciona una fecha antes de analizar.", "", "warning");
-      return;
-    }
-  
-    try {
-      const response = await fetch(
-        `${API_URL}/plot_nube_palabras.png?user_token=${userToken}&fecha=${fecha}`
-      );
-      
-      if (response.status === 404) {
-        setMensajeError(`⚠️ No hay mensajes para la fecha ${fecha}.`);
-        setWordCloud(null);
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error("Error al obtener la nube de palabras");
-      }
-      
-      setWordCloud(response.url); // Guardar la URL de la imagen
-      setShowDatePicker(false); // Cerrar el selector
-    } catch (error) {
-      console.error("Error:", error);
-      Swal.fire("Hubo un problema al generar la nube de palabras.", "", "error");
-    }
-  };
-  
 
   const fetchSentimentAnalysis = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await fetch(`${API_URL}/analisis_sentimientos?user_token=${userToken}`);
-  
+      const response = await fetch(
+        `${API_URL}/analisis_sentimientos?user_token=${userToken}`
+      );
+
       if (response.status === 404) {
         setMensajeError("⚠️ No hay mensajes disponibles para analizar.");
         return;
       }
-  
+
       if (!response.ok) {
         throw new Error("Error al obtener el análisis de sentimientos");
       }
       return await response.json();
     } catch (error) {
       console.error("Error:", error);
-      Swal.fire("Hubo un problema al realizar el análisis de sentimientos.", "", "error");
+      Swal.fire(
+        "Hubo un problema al realizar el análisis de sentimientos.",
+        "",
+        "error"
+      );
     }
   };
 
   const fetchPlot = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot.json?user_token=${userToken}`
+      );
+      return response.data; // Si la petición es exitosa, devuelve los datos.
     } catch (error) {
-      console.error("Error al obtener el gráfico plot.png", error);
-      Swal.fire("Error al obtener el gráfico plot.png.", "", "error");
+      Swal.fire({
+        icon: "error",
+        title: "Error al obtener los datos",
+        text: "Hubo un problema al cargar la información del gráfico. Inténtalo nuevamente.",
+        confirmButtonText: "Aceptar",
+      });
+
+      return { error: true }; // Devuelve un objeto de fallback en lugar de dejar vacío
     }
   };
-  
+
   const fetchTopEmojis = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/top_emojis?user_token=${userToken}`);
-      return response.data // Retorna la lista de emojis con sus datos
+      const response = await axios.get(
+        `${API_URL}/top_emojis?user_token=${userToken}`
+      );
+      return response.data; // Retorna la lista de emojis con sus datos
     } catch (error) {
       console.error("Error al obtener los datos de emojis", error);
       Swal.fire("Error al obtener los datos de emojis.", "", "error");
@@ -180,147 +218,262 @@ const handleFileChange = (e) => {
   };
 
   const fetchPlotDates = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_dates.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot_dates.json?user_token=${userToken}`
+      );
+
+      return response.data; // Retorna los datos ya en formato JSON
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_dates.png", error);
-      Swal.fire("Error al obtener el gráfico plot_dates.png.", "", "error");
+      console.error("Error al obtener los datos de actividad", error);
+      Swal.fire("Error al obtener los datos de actividad.", "", "error");
+      return [];
     }
   };
-  
+
   const fetchPlotMensajesAno = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_mensajes_año.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot_mensajes_año.json?user_token=${userToken}`
+      );
+
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+
+      return response.data; // 👈 Devuelve los datos JSON correctamente
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_mensajes_año.png", error);
-      Swal.fire("Error al obtener el gráfico plot_mensajes_año.png.", "", "error");
+      console.error("Error al obtener los datos de mensajes por año:", error);
+      Swal.fire("Error al obtener los datos de mensajes por año.", "", "error");
+      return null;
     }
   };
-  
+
   const fetchPlotMensajesMes = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_mensajes_mes.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot_mensajes_mes.json?user_token=${userToken}`
+      );
+
+      if (response.data && response.data.mensajes_por_mes) {
+        return response.data; // Devuelve los datos correctamente
+      } else {
+        throw new Error("Respuesta inválida del servidor.");
+      }
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_mensajes_mes.png", error);
-      Swal.fire("Error al obtener el gráfico plot_mensajes_mes.png.", "", "error");
+      console.error("Error al obtener los datos de mensajes por mes", error);
+      Swal.fire("Error al obtener los datos de mensajes por mes.", "", "error");
+      return null;
     }
   };
-  
+
   const fetchPlotHorasCompleto = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_horas_completo.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/horas_completo.json?user_token=${userToken}`
+      );
+
+      console.log("Respuesta de la API:", response.data); // 👀 Verifica qué devuelve la API
+
+      if (!response.data || !response.data.datos_horas) {
+        throw new Error("Datos de horas_completo.json no válidos");
+      }
+
+      return response.data; // 🔹 Devuelve el array con los datos
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_horas_completo.png", error);
-      Swal.fire("Error al obtener el gráfico plot_horas_completo.png.", "", "error");
+      console.error("Error al obtener los datos de horas_completo.json", error);
+      Swal.fire("Error al obtener los datos del gráfico.", "", "error");
+      return []; // 🔹 Devuelve un array vacío en caso de error
     }
   };
-  
+
   const fetchPlotTimeline = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_timeline.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot_timeline.json?user_token=${userToken}`
+      );
+      return response.data; // Devolvemos el JSON directamente
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_timeline.png", error);
-      Swal.fire("Error al obtener el gráfico plot_timeline.png.", "", "error");
+      console.error("Error al obtener los datos de la línea temporal", error);
+      Swal.fire(
+        "Error al obtener los datos de la línea temporal.",
+        "",
+        "error"
+      );
+      return null; // Retornamos null en caso de error
     }
   };
-  
   const fetchPlotMensajesPorDia = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_URL}/plot_mensajes_por_dia.png?user_token=${userToken}`, { responseType: "blob" });
-      return URL.createObjectURL(response.data);
+      const response = await axios.get(
+        `${API_URL}/plot_mensajes_por_dia.json?user_token=${userToken}`
+      );
+
+      console.log("🔍 Respuesta de la API:", response.data);
+
+      return response.data;
     } catch (error) {
-      console.error("Error al obtener el gráfico plot_mensajes_por_dia.png", error);
-      Swal.fire("Error al obtener el gráfico plot_mensajes_por_dia.png.", "", "error");
+      console.error(
+        "❌ Error al obtener los datos de mensajes por día:",
+        error
+      );
+      Swal.fire("Error al obtener los datos de mensajes por día.", "", "error");
+      return { timeline: [], top_days: [] };
     }
   };
 
   const fetchEmotionalMessages = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
-      const response = await fetch(`${API_URL}/mensajes_mayor_emocion?user_token=${userToken}`);
-  
+      const response = await fetch(
+        `${API_URL}/mensajes_mayor_emocion?user_token=${userToken}`
+      );
+
       if (response.status === 404) {
         setMensajeError("⚠️ No hay mensajes disponibles para analizar.");
         return;
       }
-  
+
       if (!response.ok) {
         throw new Error("Error al obtener los mensajes con mayor emoción");
       }
       return await response.json();
     } catch (error) {
       console.error("Error:", error);
-      Swal.fire("Hubo un problema al obtener los mensajes con mayor emoción.", "", "error");
+      Swal.fire(
+        "Hubo un problema al obtener los mensajes con mayor emoción.",
+        "",
+        "error"
+      );
     }
   };
-  
+
   const fetchConteoToxicidad = async () => {
     if (!userToken) {
-      Swal.fire("No hay user_token disponible. Sube un archivo primero.", "", "warning");
+      Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
-  
+    if (!userToken) {
+      Swal.fire(
+        "No hay user_token disponible. Sube un archivo primero.",
+        "",
+        "warning"
+      );
+      return;
+    }
+
     try {
-      const response = await axios.get(`${API_URL}/conteo_toxicidad?user_token=${userToken}`);
+      const response = await axios.get(
+        `${API_URL}/conteo_toxicidad?user_token=${userToken}`
+      );
       return response.data;
     } catch (error) {
-      console.error("❌ Error al obtener conteo de toxicidad:", error.response?.data || error.message);
+      console.error(
+        "❌ Error al obtener conteo de toxicidad:",
+        error.response?.data || error.message
+      );
       Swal.fire("⚠️ No se pudo obtener el conteo de toxicidad.", "", "error");
       return {}; // Devuelve un objeto vacío si hay error
     }
   };
-  
-
-
-  
 
   const fetchGraficoEmociones = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
       const response = await axios.get(
-        `${API_URL}/grafico_emociones.png?user_token=${userToken}`, 
+        `${API_URL}/grafico_emociones.png?user_token=${userToken}`,
         { responseType: "blob" }
       );
       return URL.createObjectURL(response.data);
     } catch (error) {
       console.error("Error al obtener el gráfico de emociones", error);
       if (error.response && error.response.status === 404) {
-        Swal.fire("⚠️ No hay datos de emociones disponibles para este usuario.", "", "warning");
+        Swal.fire(
+          "⚠️ No hay datos de emociones disponibles para este usuario.",
+          "",
+          "warning"
+        );
       } else {
         Swal.fire("Error al obtener el gráfico de emociones.", "", "error");
       }
     }
   };
- 
 
   const fetchSentimentAvgGraph = async () => {
     if (!userToken) {
-      Swal.fire("Falta el user_token. Sube un archivo primero.", "", "warning");
+      Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
-  
+    if (!userToken) {
+      Swal.fire("Falta el user_token. Sube un archivo primero.", "", "warning");
+      return null;
+    }
+
     try {
       const response = await axios.get(
-        `${API_URL}/sentimiento_promedio_dia.png?user_token=${userToken}`,
-        { responseType: "blob" }
+        `${API_URL}/sentimiento_promedio_dia?user_token=${userToken}`
       );
-      return URL.createObjectURL(response.data);
+
+      // Verificar si la respuesta fue exitosa y contiene los datos esperados
+      if (response.status === 200 && response.data?.top_dias?.length > 0) {
+        console.log("Días con mayor carga emocional:", response.data.top_dias);
+        return response.data;
+      } else {
+        throw new Error("No se encontraron datos de sentimiento.");
+      }
     } catch (error) {
-      console.error("Error al obtener el gráfico de sentimiento promedio por día", error);
-      Swal.fire("Error al obtener el gráfico de sentimiento promedio por día.", "", "error");
+      console.error(
+        "Error al obtener el gráfico de sentimiento promedio por día:",
+        error
+      );
+      Swal.fire(
+        "Error al obtener el gráfico de sentimiento promedio por día.",
+        "",
+        "error"
+      );
+      return null;
     }
   };
-
-
   const fetchTopWordsSentiment = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
       const response = await axios.get(
         `${API_URL}/top_palabras_usuario?user_token=${userToken}`
       );
-      
+
       return response.data;
     } catch (error) {
       console.error("Error al obtener las palabras más usadas", error);
@@ -329,31 +482,245 @@ const handleFileChange = (e) => {
   };
 
   const fetchGraficoEvolucionSentimientos = async () => {
+    if (!userToken) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
     try {
       const response = await axios.get(
-        `${API_URL}/sentimientos_por_dia.png?user_token=${userToken}`, 
-        { responseType: "blob" }
+        `${API_URL}/sentimientos_por_dia.json?user_token=${userToken}`
       );
-      return URL.createObjectURL(response.data);
+
+      console.log(
+        "📊 Datos recibidos en fetchGraficoEvolucionSentimientos:",
+        response.data
+      );
+
+      if (!response.data || !response.data.datos) {
+        throw new Error("Datos no disponibles");
+      }
+
+      return response.data; // Devolvemos los datos JSON directamente
     } catch (error) {
-      console.error("Error al obtener el gráfico de evolución de sentimientos", error);
-      Swal.fire("Error al obtener el gráfico de evolución de sentimientos.", "", "error");
+      console.error("Error al obtener la evolución de sentimientos", error);
+      Swal.fire("Error al obtener la evolución de sentimientos.", "", "error");
+      return []; // Devolvemos un array vacío en caso de error
     }
   };
 
+  const fetchDataAndSetTitle = async (fetchFunction, title) => {
+    setSelectedTitle(title); // Cambia el título
+    const data = await fetchFunction(); // Llama a la API
+    setContent(data); // Guarda la data obtenida
+  };
+
+  const fetchWordCloud = async (fechaSeleccionada) => {
+    if (!fechaSeleccionada) {
+      console.warn(
+        "⚠️ No hay fecha seleccionada, no se ejecutará la petición."
+      );
+      return;
+    }
+
+    try {
+      setFetchingData(true);
+      const response = await fetch(
+        `${API_URL}/nube_palabras?user_token=${userToken}&fecha=${fechaSeleccionada}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Error desconocido al obtener la nube de palabras"
+        );
+      }
+
+      if (!data.palabras || Object.keys(data.palabras).length === 0) {
+        Swal.fire(
+          `⚠️ No hay mensajes para la fecha ${fechaSeleccionada}.`,
+          "",
+          "warning"
+        );
+        setWordCloudData(null);
+        return;
+      }
+
+      console.log("📥 Datos recibidos:", data);
+
+      // Convertir objeto a array y ordenar de mayor a menor frecuencia
+      const wordArray = Object.entries(data.palabras)
+        .map(([palabra, valor]) => ({
+          text: palabra,
+          value: valor,
+        }))
+        .sort((a, b) => b.value - a.value);
+
+      console.log("📊 Palabras ordenadas:", wordArray);
+      setWordCloudData(wordArray);
+    } catch (error) {
+      console.error("❌ Error:", error);
+      Swal.fire(error.message, "", "error");
+    } finally {
+      setFetchingData(false);
+    }
+  };
 
   return (
-    <div className="container">
-      {/* Muestra el título y la subida de archivos SOLO si aún no se ha subido el archivo */}
-      {!fileUploaded && (
-        <>
-          <h1 className="title-S">Subir Archivo</h1>
-          <p className="description-S">
-            Analiza chats de WhatsApp.
-            Para usarlo solo ve al chat de WhatsApp que quieras analizar , le das click a los 3 puntitos de la parte superior derecha, haces click en "Mas" y le das a la opcion de "Exportar Chat" y lo exportas sin archivos multimedia. El arhcivo .zip lo subes y listo.
-          </p>
-    
-          {!file ? (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img src="/Sylas_0.jpg" alt="Logo" className="logo" />
+          <span className="logo-text">Analizador de Chat</span>
+        </div>
+        <button
+          onClick={() =>
+            fetchData(fetchStats, "📊 Estadísticas Generales del Chat")
+          }
+        >
+          📊 Estadísticas Generales del Chat
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchTopWordsSentiment,
+              "📝 Palabras más usadas por autores"
+            )
+          }
+        >
+          📝 Palabras más usadas por autores
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchSentimentAnalysis,
+              "📈 Grafico de barras de sentimientos del chat"
+            )
+          }
+        >
+          📊 Grafico de barras de sentimientos del chat
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlot,
+              "📊 Gráfico de barras del total de mensajes por dias "
+            )
+          }
+        >
+          📊 Gráfico de barras del total de mensajes por dias
+        </button>
+        <button
+          onClick={() => fetchData(fetchTopEmojis, "😊 Gráfico de Emojis")}
+        >
+          😊 Gráfico de Emojis
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlotDates,
+              "📊 Grafico de barras de Dias de Mayor actividad del chat"
+            )
+          }
+        >
+          📊 Grafico de barras de Dias de Mayor actividad del chat
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlotMensajesAno,
+              "📊 Grafico Mensajes por años del chat"
+            )
+          }
+        >
+          📊 Grafico Mensajes por años del chat
+        </button>
+        <button
+          onClick={() =>
+            fetchData(fetchPlotMensajesMes, "📊 Gráfico de mensajes por mes")
+          }
+        >
+          📊 Gráfico de mensajes por mes
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlotTimeline,
+              "📈 Gráfico Lineal de mensajes por año "
+            )
+          }
+        >
+          📈 Gráfico Lineal de mensajes por año
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlotMensajesPorDia,
+              "📈 Gráfico Lineal de mensajes por dia "
+            )
+          }
+        >
+          📈 Gráfico Lineal de mensajes por dia
+        </button>
+        {/* y 
+        <button
+          onClick={() => fetchData(fetchWordCloud, "📅 Nube de Palabras")}
+        >
+          📅 Nube de Palabras
+        </button>
+        */}
+        <button
+          onClick={() =>
+            fetchData(
+              fetchSentimentAvgGraph,
+              "📊 Grafico de sentimientos negativos y positivos por dia"
+            )
+          }
+        >
+          📊 Grafico de sentimientos negativos y positivos por dia
+        </button>
+
+        <button
+          onClick={() =>
+            fetchData(
+              fetchGraficoEvolucionSentimientos,
+              "Gráfico de carga emocional de mensajes por dia"
+            )
+          }
+        >
+          📅 Gráfico de carga emocional de mensajes por dia
+        </button>
+        <button
+          onClick={() =>
+            fetchData(
+              fetchPlotHorasCompleto,
+              "📊 Gráfico de horas de mas actividad del chat"
+            )
+          }
+        >
+          📊 Gráfico de horas de mas actividad del chat
+        </button>
+        <button
+          onClick={() =>
+            fetchData(fetchConteoToxicidad, "📅 Palabras Toxicas por Usuario")
+          }
+        >
+          📅 Palabras Toxicas por Usuario
+        </button>
+      </div>
+
+      {/* Contenido Principal */}
+      <div className="main-content expanded">
+        {/* Sección de subida de archivo (solo visible si no se ha subido) */}
+        {!fileUploaded && !content && (
+          <div className="upload-section">
+            <h1>Subir Archivo</h1>
+            <p>
+              Analiza chats de WhatsApp. Exporta el chat sin archivos multimedia
+              y súbelo aquí.
+            </p>
+
             <div className="file-input-wrapper">
               <input
                 type="file"
@@ -361,154 +728,104 @@ const handleFileChange = (e) => {
                 onChange={handleFileChange}
                 id="fileInput"
                 className="file-input"
+                style={{ display: "none" }}
               />
               <label htmlFor="fileInput" className="file-label">
-                Seleccionar Archivo (.zip)
+                📂 Seleccionar Archivo (.zip)
               </label>
             </div>
-          ) : (
-            <button onClick={handleUploadFile} className="upload-button" disabled={loading}>
-              {loading ? "Cargando..." : "Subir Archivo"}
-            </button>
-          )}
-    
-          {loading && (
-            <div className="loading-container">
-              <div className="spinner"></div>
-              <span className="loading-text">Cargando...</span>
+
+            {file && (
+              <button
+                onClick={handleUploadFile}
+                className="upload-button"
+                disabled={loading}
+              >
+                {loading ? "Cargando..." : "Subir Archivo"}
+              </button>
+            )}
+          </div>
+        )}
+        {fetchingData && (
+          <div className="loading-screen">
+            <div className="spinner"></div>
+            <div className="message">Analizando datos... Espere por favor</div>
+          </div>
+        )}
+        {/* Mostrar mensaje solo después de subir un archivo y antes de presionar un botón */}
+        {fileUploaded && showMessage && !content && (
+          <div className="empty-state">
+            <h2>👋 ¡Bienvenido!</h2>
+            <p>Haga click en un botón para probar la app.</p>
+          </div>
+        )}
+
+        {/* Contenedor de contenido */}
+
+        {content && (
+          <div className="content-container">
+            <h2>{selectedTitle || "📊 Aquí aparecerán los gráficos"}</h2>
+
+            <div className="mt-6 w-full max-w-7xl">
+              <div className="p-8 bg-white rounded-lg shadow-lg">
+                {typeof content === "string" ? (
+                  <img
+                    src={content}
+                    alt="Gráfico"
+                    className="w-full h-auto rounded-lg"
+                  />
+                ) : content && content.resumen_general ? (
+                  <ChatStats stats={content} />
+                ) : content.top_palabras_por_usuario ? (
+                  <TopWords
+                    topPalabras={{
+                      top_palabras_por_usuario:
+                        content.top_palabras_por_usuario,
+                    }}
+                  /> //fetchTopWordsSentiment
+                ) : content.top_emojis ? (
+                  <EmojiChart emojiData={content} /> //fetchTopEmojis
+                ) : content.positivo && content.neutro && content.negativo ? (
+                  <SentimentStats sentiment={content} /> //fetchSentimentAnalysis
+                ) : content.mensajes_mas_positivos ? (
+                  <EmotionalMessages emotionalMessages={content} /> //fetchEmotionalMessages
+                ) : content.conteo_toxicidad ? (
+                  <OffensiveWords data={content.conteo_toxicidad} /> //fetchConteoToxicidad
+                ) : content.activity_per_day ? (
+                  <ActivityChart activityData={content.activity_per_day} /> //fetchPlot
+                ) : content.top_active_days ? (
+                  <TopActiveDaysChart data={content.top_active_days} /> //fetchPlotDates
+                ) : content.mensajes_por_año ? (
+                  <MessagesByYearChart data={content.mensajes_por_año} /> //fetchPlotMensajesAno
+                ) : content.mensajes_por_mes ? (
+                  <MessagesByMonthChart data={content.mensajes_por_mes} /> //fetchPlotMensajesMes
+                ) : content.timeline ? (
+                  <TimelineChart timelineData={content.timeline} /> //fetchPlotTimeline
+                ) : content.timelineDay ? (
+                  <MessagesTimeline
+                    timelineDataDay={content.timelineDay}
+                    topDays={content.top_days}
+                    bottomDays={content.bottom_days} //fetchPlotMensajesPorDia
+                  /> //fetchPlotMensajesPorDia
+                ) : content.palabras &&
+                  Object.keys(content.palabras).length > 0 ? (
+                  <WordCloudChart fetchWordCloud={fetchWordCloud} />
+                ) : content.top_dias ? (
+                  <SentimentAvgGraph sentimentData={content.top_dias} /> //fetchSentimentAvgGraph
+                ) : content.datos ? (
+                  <EvolucionSentimientosChart
+                    evolucionSentimientosData={content.datos}
+                  /> //fetchGraficoEvolucionSentimientos
+                ) : content.datos_horas ? (
+                  <HorasMensajesChart datos_horas={content.datos_horas} /> //fetchPlotHorasCompleto
+                ) : (
+                  null(<pre>{JSON.stringify(content, null, 2)}</pre>)
+                )}
+              </div>
             </div>
-          )}
-        </>
-      )}
-      
-
-      {fileUploaded && !loading && (
-        // Una vez que el archivo ha sido subido correctamente, muestra los botones adicionales
-    <div className="mt-6 mb-6">
-    <button onClick={() => fetchData(fetchStats)} className="btn-green" disabled={fetchingData}>Estadisticas Generales</button>
-    <button onClick={() => fetchData(fetchTopWordsSentiment)} className="btn-green" disabled={fetchingData}>Palabras más Usadas</button>
-    <button onClick={() => fetchData(fetchSentimentAnalysis)} className="btn-red" disabled={fetchingData}>Estadistica del chat</button>
-    <button onClick={() => fetchData(fetchEmotionalMessages)} className="btn-orange" disabled={fetchingData}>Mensajes Emocionales</button>
-    <button onClick={() => fetchData(fetchConteoToxicidad)} className="btn-red" disabled={fetchingData}>Conteo de Malas Palabras</button>
-    <button onClick={() => fetchData(fetchPlot)} className="btn-purple" disabled={fetchingData}>Grafico de Actividad por dia</button>
-    <button onClick={() => fetchData(fetchTopEmojis)} className="btn-purple" disabled={fetchingData}>Grafico de conteo de emojis</button>
-    <button onClick={() => fetchData(fetchPlotDates)} className="btn-purple" disabled={fetchingData}>Grafico de dias mas activos</button>
-    <button onClick={() => fetchData(fetchPlotMensajesAno)} className="btn-purple" disabled={fetchingData}>Gráfico de Mensajes Año</button>
-    <button onClick={() => fetchData(fetchPlotMensajesMes)} className="btn-purple" disabled={fetchingData}>Gráfico de Mensajes Mes</button>
-    <button onClick={() => fetchData(fetchPlotHorasCompleto)} className="btn-purple" disabled={fetchingData}>Gráfico de Horas Completo</button>
-    <button onClick={() => fetchData(fetchPlotTimeline)} className="btn-purple" disabled={fetchingData}>Timeline de Mensajes</button>
-    <button onClick={() => fetchData(fetchPlotMensajesPorDia)} className="btn-purple" disabled={fetchingData}>Gráfico de Mensajes por Día</button>    
-    <button onClick={() => fetchData(fetchSentimentAvgGraph)} className="btn-blue" disabled={fetchingData}>Grafica de Dias de mayor carga emocional</button>
-    <button onClick={() => fetchData(fetchGraficoEmociones)} className="btn-blue" disabled={fetchingData}>Gráfico de Emociones</button>
-    <button onClick={() => fetchData(fetchGraficoEvolucionSentimientos)} className="btn-red" disabled={fetchingData}>Grafico de Sentimiento por dia</button>
-    <button onClick={() => setShowDatePicker(true)} className="btn-yellow mt-3" disabled={fetchingData}>Generar Nube de Palabras</button>
-  </div>
-      )}
-
-{fetchingData && (
-  <div className="loading-screen">
-    <div className="spinner"></div>
-    <div className="message">Analizando datos... Espere por favor</div>
-  </div>
-)}
-
-{content && (
-  <div className="mt-6 w-full max-w-3xl">
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      {typeof content === "string" ? (
-        <img src={content} alt="Gráfico" className="w-full h-auto rounded-lg" />
-      ) : content.total_mensajes ? (
-        <ChatStats stats={content} />
-      ) : content.top_palabras_por_usuario ? (
-        <TopWords topPalabras={{ top_palabras_por_usuario: content.top_palabras_por_usuario }} />
-      ):  content.top_emojis   ? (
-        <>
-          <EmojiChart emojiData={content} />
-        </>
-      ) : content.positivo && content.neutro && content.negativo ? (
-        <SentimentStats sentiment={content} />
-      ) : content.mensajes_mas_positivos ? (
-        <EmotionalMessages emotionalMessages={content} />
-      ) : content.conteo_toxicidad ? (
-        <>
-          {console.log("📌 Renderizando OffensiveWords con:", content.conteo_toxicidad)}
-          <OffensiveWords data={content.conteo_toxicidad} />
-        </>
-      ) 
-     : (
-        <pre>{JSON.stringify(content, null, 2)}</pre>
-      )}
-    </div>
-  </div>
-)}
-
-
-
-
-{showDatePicker && (
-  <div className="mt-6 w-full max-w-3xl">
-    <div className="p-4 bg-white rounded-lg shadow-lg text-center">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">📅 Selecciona una fecha</h2>
-      
-      <input
-        type="date"
-        value={fecha}
-        onChange={(e) => setFecha(e.target.value)}
-        className="p-3 border rounded-lg w-full shadow-sm focus:ring-2 focus:ring-yellow-400"
-      />
-
-<div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
-        <button
-          onClick={fetchWordCloud}
-          style={{ padding: '0.5rem 1rem', backgroundColor: '#38a169', color: 'white', borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', cursor: 'pointer' }}
-        >
-          🔍 Analizar
-        </button>
-        
-        <button
-          onClick={() => setShowDatePicker(false)}
-          style={{ padding: '0.5rem 1rem', backgroundColor: '#e53e3e', color: 'white', borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', cursor: 'pointer' }}
-        >
-          ❌ Cancelar
-        </button>
+          </div>
+        )}
       </div>
-    </div>
-  </div>
-)}
-
-{/* Mensaje de error si no hay mensajes para esa fecha */}
-{mensajeError && (
-  <div className="mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center">
-    {mensajeError}
-  </div>
-)}
-
-{wordCloud && (
-  <div className="mt-6 w-full max-w-3xl">
-    <div className="p-4 bg-white rounded-lg shadow-lg text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">☁️ Nube de Palabras</h2>
-      <div className="border-2 border-gray-300 rounded-lg p-2 bg-gray-50">
-        <img src={wordCloud} alt="Nube de Palabras" className="w-full rounded-lg shadow-md" />
-      </div>
-      <button
-        onClick={() => setWordCloud(null)}
-        className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600"
-      >
-        ❌ Cerrar Nube
-      </button>
-    </div>
-  </div>
-)}
-{Object.keys(images).length > 0 && (
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {Object.entries(images).map(([name, src]) => (
-            <div key={name} className="border p-2 rounded-lg shadow-md text-center">
-              <h2 className="text-sm font-semibold mb-2">{name.replace(".png", "").replace("plot_", "").replace("_", " ")}</h2>
-              <img src={src} alt={name} className="w-full h-auto rounded-lg" />
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

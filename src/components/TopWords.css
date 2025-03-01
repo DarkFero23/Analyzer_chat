@@ -1,0 +1,112 @@
+/* Contenedor principal */
+.top-words-container {
+  width: 90%;
+  max-width: 800px;
+  height: 80vh; /* 🔥 Ocupa el 80% de la pantalla */
+  margin: 20px auto;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título */
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Contenedor de usuarios */
+.users-container {
+  flex-grow: 1; /* 🔥 Hace que se expanda y ocupe todo el espacio disponible */
+  overflow-y: auto; /* 🔥 Scroll solo si es necesario */
+  padding-right: 10px; /* Espacio para el scroll */
+}
+
+/* Sección de cada usuario */
+.user-section {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+/* Personalizar el Scroll (solo se ve cuando se usa) */
+.users-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.users-container::-webkit-scrollbar-thumb {
+  background: #008557;
+  border-radius: 10px;
+}
+
+.users-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Nombre del usuario */
+.user-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #008557;
+  margin-bottom: 10px;
+}
+
+/* Lista de palabras */
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Elementos de la lista */
+.word-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: #f1f1f1;
+  margin-bottom: 5px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.word-item:hover {
+  transform: scale(1.03);
+  background: #e0e0e0;
+}
+
+/* Nombre de la palabra */
+.word {
+  flex-grow: 1;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Cantidad de veces usada */
+.count {
+  font-size: 14px;
+  font-weight: bold;
+  color: #008557;
+}
+
+/* Mensaje de error */
+.error-message {
+  text-align: center;
+  color: #e93938;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 15px;
+  background: #ffeeee;
+  border-radius: 8px;
+  width: fit-content;
+  margin: 20px auto;
+}

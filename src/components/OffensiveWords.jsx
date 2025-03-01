@@ -6,25 +6,33 @@ const OffensiveWords = ({ data }) => {
     <div className="offensive-container">
       <h2>📌 Uso de Palabras Ofensivas</h2>
       {Object.keys(data).length === 0 ? (
-        <p>No hay datos disponibles.</p>
+        <p className="no-data">No hay datos disponibles.</p>
       ) : (
-        <ul>
-          {Object.entries(data).map(([user, words]) => (
-            <li key={user} className="user-section">
-              <h3>{user}</h3>
-              {Object.keys(words).length > 0 ? (
-                <ul className="words-list">
-                  {Object.entries(words).map(([word, count]) => (
-                    <li key={word}>
-                      <span className="word">{word}</span>: <span className="count">{count}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="no-words">✅ No usó palabras ofensivas.</p>
-              )}
-            </li>
-          ))}
+        <ul className="user-list">
+          {Object.entries(data).map(([user, words]) => {
+            // Convertimos las palabras en un array y las ordenamos de mayor a menor
+            const sortedWords = Object.entries(words).sort(
+              (a, b) => b[1] - a[1]
+            );
+
+            return (
+              <li key={user} className="user-section">
+                <h3>{user}</h3>
+                {sortedWords.length > 0 ? (
+                  <ul className="words-list">
+                    {sortedWords.map(([word, count]) => (
+                      <li key={word} className="word-item">
+                        <span className="word">{word}</span>
+                        <span className="count">{count}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="no-words">✅ No usó palabras ofensivas.</p>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

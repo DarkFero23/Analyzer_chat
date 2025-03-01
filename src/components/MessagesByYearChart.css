@@ -1,0 +1,36 @@
+.messages-by-year-chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.messages-by-year-chart-container:hover {
+  transform: scale(1.02);
+}
+
+.chart-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Estilo del Tooltip */
+.recharts-tooltip-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Personalización de las barras */
+.recharts-bar-rectangle {
+  transition: fill 0.3s ease-in-out;
+}
+
+.recharts-bar-rectangle:hover {
+  fill: #2e8b57 !important; /* Cambia de color al pasar el mouse */
+}

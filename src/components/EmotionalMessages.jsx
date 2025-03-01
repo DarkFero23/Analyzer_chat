@@ -1,46 +1,47 @@
-import React from "react";
-import "./EmotionalMessages.css"; // Importamos el CSS
+import { Bar } from "react-chartjs-2";
 
-const EmotionalMessages = ({ emotionalMessages }) => {
-  if (!emotionalMessages) return <p>Error: No hay datos de mensajes emocionales.</p>;
+const MensajesPorMesChart = ({ data }) => {
+  if (!data || data.length === 0) return <p>No hay datos disponibles.</p>;
+
+  const meses = data.map((item) => item.mes);
+  const valores = data.map((item) => item.mensajes);
+
+  const chartData = {
+    labels: meses,
+    datasets: [
+      {
+        label: "Mensajes por Mes",
+        data: valores,
+        backgroundColor: "#32CD32",
+        borderRadius: 5,
+      },
+    ],
+  };
 
   return (
-    <div className="emotional-container">
-      <h2>📌 Mensajes con Mayor Emoción</h2>
-
-      <div className="emotional-section positivos">
-        <h3>🌟 Más Positivos</h3>
-        {emotionalMessages.mensajes_mas_positivos.length > 0 ? (
-          <ul>
-            {emotionalMessages.mensajes_mas_positivos.map((msg, index) => (
-              <li key={index}>
-                <strong>{msg.autor}</strong>: {msg.mensaje}
-                <span className="fecha">({msg.fecha})</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No hay mensajes positivos.</p>
-        )}
-      </div>
-
-      <div className="emotional-section negativos">
-        <h3>⚠️ Más Negativos</h3>
-        {emotionalMessages.mensajes_mas_negativos.length > 0 ? (
-          <ul>
-            {emotionalMessages.mensajes_mas_negativos.map((msg, index) => (
-              <li key={index}>
-                <strong>{msg.autor}</strong>: {msg.mensaje}
-                <span className="fecha">({msg.fecha})</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No hay mensajes negativos.</p>
-        )}
-      </div>
+    <div className="mensajes-mes-container">
+      <h3>📅 Mensajes por Mes</h3>
+      <Bar
+        data={chartData}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 50 },
+            },
+          },
+        }}
+      />
     </div>
   );
 };
 
-export default EmotionalMessages;
+export default MensajesPorMesChart;

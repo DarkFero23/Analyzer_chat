@@ -1,62 +1,61 @@
 .emoji-chart-container {
-    padding: 1rem;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: auto;
-  }
-  
-  .emoji-chart-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: #333;
-  }
-  
-  .emoji-user-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  .emoji-user-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #007bff;
-    margin-bottom: 0.5rem;
-  }
-  
-  .emoji-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .emoji-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    transition: background 0.3s ease-in-out;
-  }
-  
-  .emoji-item:hover {
-    background-color: #e9ecef;
-  }
-  
-  .emoji-symbol {
-    font-size: 1.8rem;
-  }
-  
-  .emoji-count {
-    font-weight: 500;
-    color: #555;
-  }
-  
-  .emoji-percentage {
-    font-size: 0.9rem;
-    color: #777;
-  }
-  
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: auto;
+}
+
+.emoji-chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.emoji-user-section {
+  margin-bottom: 1.5rem;
+}
+
+.emoji-user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 0.5rem;
+}
+
+.emoji-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.emoji-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.emoji-item:hover {
+  background-color: #e9ecef;
+}
+
+.emoji-symbol {
+  font-size: 1.8rem;
+}
+
+.emoji-count {
+  font-weight: 500;
+  color: #555;
+}
+
+.emoji-percentage {
+  font-size: 0.9rem;
+  color: #777;
+}

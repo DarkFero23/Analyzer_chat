@@ -1,0 +1,30 @@
+.activity-chart-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 90%;
+  margin: auto;
+}
+
+.chart-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.recharts-bar-rectangle {
+  transition: all 0.3s ease-in-out;
+}
+
+.recharts-bar-rectangle:hover {
+  fill: #2e8b57 !important;
+  transform: scale(1.01);
+}
+.recharts-tooltip-wrapper {
+  max-width: 270px !important; /* Limita el ancho del tooltip */
+  word-wrap: break-word; /* Permite que el texto se divida en varias líneas */
+  text-align: center; /* Centra el texto dentro del tooltip */
+}

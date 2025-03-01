@@ -1,299 +1,300 @@
-body {
-  background: linear-gradient(120deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-  background-size: 300% 300%;
-  animation: smoothGradient 6s linear infinite alternate;
-  min-height: 100vh;
+/* ======= Reset de estilos ======= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+/* ======= Estructura General ======= */
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background: #eef2f7; /* Fondo más suave */
+}
+
+/* ======= Sidebar ======= */
+.sidebar {
+  width: 270px;
+  background: linear-gradient(
+    135deg,
+    #1f1c2c,
+    #928dab
+  ); /* Degradado oscuro elegante */
+  color: white;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  overflow-x: hidden;
+  gap: 15px;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Estilo del logo */
+.logo {
+  width: 55px;
+  height: auto;
+  border-radius: 20%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Efecto sutil de brillo */
+}
+
+/* Texto al lado del logo */
+.logo-text {
+  font-size: 20px;
+  font-weight: bold;
   color: white;
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
-@keyframes smoothGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-
-.min-h-screen {
-  min-height: 100vh;
-  overflow-y: auto; /* Permitir desplazamiento vertical */
-  width: 100%;
-}
-
-/* Botones vibrantes con tonos inspirados en Instagram */
-button {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+/* ======= Botones del Sidebar ======= */
+.sidebar button {
+  background: rgba(255, 255, 255, 0.1); /* Botones semi-transparentes */
   color: white;
   border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 25px;
+  padding: 14px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px; /* Espaciado entre íconos y texto */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+  position: relative;
 }
 
-button:hover {
+/* Separador sutil entre botones */
+.sidebar button:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2); /* Línea delgada y elegante */
+}
+
+/* ======= Animaciones ======= */
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px); /* Ligeramente hacia la derecha */
+}
+
+/* Botón activo */
+.sidebar button.active {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-button:active {
-  transform: scale(0.95);
-}
-/* Falta ahcer lo del incicio */
-
-.container {
-  text-align: center;
-  padding: 40px;
-}
-
-.title {
-  font-size: 32px;
-  font-weight: bold;
+/* Iconos dentro del botón */
+.sidebar button i {
+  font-size: 18px;
   color: white;
+}
+
+/* ======= Contenido Principal ======= */
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ======= Sección de subida de archivos ======= */
+/* ======= Sección de subida de archivos ======= */
+.upload-section {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Título */
+.upload-section h1 {
+  font-size: 26px;
+  color: #1e3a8a; /* Azul profundo */
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
-.description {
-  font-size: 18px;
-  color: #ddd;
+/* Descripción */
+.upload-section p {
+  font-size: 16px;
+  color: #555;
   margin-bottom: 20px;
 }
 
-/* Estilo del input de archivo */
-.file-input-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
+/* Zona de arrastre */
+.drag-area {
+  border: 2px dashed #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  transition: 0.3s;
 }
 
-.file-input {
-  display: none;
+.drag-area:hover {
+  background: rgba(59, 130, 246, 0.2);
+  transform: scale(1.02);
 }
 
-.file-label {
-  display: block;
-  background: linear-gradient(45deg, #00c6ff, #0072ff);
-  color: white;
+/* Icono dentro de la zona de arrastre */
+.drag-area i {
+  font-size: 40px;
+  color: #1e40af;
+  margin-bottom: 10px;
+}
+
+/* Texto dentro de la zona de arrastre */
+.drag-area p {
   font-size: 18px;
-  font-weight: bold;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+/* Botón para seleccionar archivo */
+.file-label {
+  display: inline-block;
   padding: 12px 20px;
-  border-radius: 30px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.3s ease;
-  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+  margin-top: 15px;
 }
 
 .file-label:hover {
+  background: #1e40af;
   transform: scale(1.05);
-  background: linear-gradient(45deg, #0072ff, #00c6ff);
 }
 
 /* Botón de subida */
 .upload-button {
-  background: linear-gradient(45deg, #28a745, #218838);
-  color: white;
-  font-size: 18px;
+  margin-top: 20px;
   padding: 12px 20px;
-  border-radius: 30px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  width: 100%;
-  margin-top: 15px;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.upload-button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.upload-button:hover {
+  background: #15803d;
+  transform: scale(1.05);
+}
+
+/* ======= Loading Screen ======= */
+.loading-screen {
+  position: fixed; /* Cubre toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+  display: flex;
+  flex-direction: column; /* Acomoda los elementos en columna */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: white; /* Texto en blanco */
+  font-size: 24px;
   font-weight: bold;
 }
-/* Estilo de carga */
-.loading-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-}
 
-
-/* Más botones de colores vibrantes */
-.btn-green { background: linear-gradient(45deg, #00ff87, #008557); }
-.btn-purple { background: linear-gradient(45deg, #a855f7, #6b21a8); }
-.btn-red { background: linear-gradient(45deg, #e63946, #b71c1c); }
-.btn-blue { background: linear-gradient(45deg, #009ffd, #0056b3); }
-.btn-yellow { background: linear-gradient(45deg, #ffcc00, #ff9900); }
-.btn-orange { background: linear-gradient(45deg, #ff6b35, #ff4500); }
-.btn-pink { background: linear-gradient(45deg, #ff6ec4, #ff3b78); }
-.btn-cyan { background: linear-gradient(45deg, #00c6ff, #0072ff); }
-
-/* Contenedor con botones en fila y espacio adecuado */
-.mt-6 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50px;
-  backdrop-filter: blur(10px);
-  margin-bottom: 20px; /* Agregar margen inferior */
-
-}
-
-/* Spinner de carga */
+/* ======= Spinner ======= */
 .spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-left-color: white;
-  width: 24px;
-  height: 24px;
+  width: 80px; /* Más grande */
+  height: 80px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  margin-bottom: 20px; /* Espacio entre el spinner y el texto */
 }
 
+/* ======= Animación de Rotación ======= */
 @keyframes spin {
-  to {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
     transform: rotate(360deg);
   }
 }
 
-/* Tarjetas para estadísticas y mensajes */
-.card {
+/* ======= Contenedor de Contenido ======= */
+.content-container {
+  width: calc(
+    100vw - 300px
+  ); /* Ajusta el ancho restando el espacio del sidebar */
+  max-width: 1200px; /* No dejamos que se haga demasiado grande */
+  min-height: 90vh;
   background: white;
-  padding: 16px;
+  padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 16px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 20px auto;
+  overflow: hidden; /* Evita que el contenido haga overflow */
 }
 
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-.card-content {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-/* Inputs */
-input[type="date"] {
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-input[type="date"]:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Contenedor de imágenes */
-.image-container img {
-  width: 100%;
-  max-width: 300px; 
-  max-height: 400px; /* Ajusta este valor según tu diseño */
-  height: auto;
-  object-fit: contain;
-}
-
-/* Botones en la parte superior fija */
-.fixed-buttons {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  z-index: 1000;
-}
-
-
-/* Pantalla de carga */
-.loading-screen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  pointer-events: none;
-}
-
-.loading-screen .spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-left-color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* Asegurar que el contenido dentro del contenedor sea más grande */
+.content-container h2 {
+  font-size: 2rem; /* Agrandamos el título */
   margin-bottom: 20px;
 }
 
-.loading-screen .message {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+/* Asegurar que las imágenes no se estiren */
+.content-container img {
+  max-width: 80%; /* Limitamos el ancho máximo */
+  height: auto; /* Mantenemos la proporción */
+  display: block;
+  margin: 0 auto; /* Centramos las imágenes */
+}
+
+/* Aumentamos el tamaño del contenido dentro */
+.content-container div {
+  font-size: 1.2rem;
+  width: 100%; /* Que tome todo el ancho disponible */
+  max-width: none; /* Eliminamos la limitación del 90% */
+  margin: 0 auto;
+}
+.empty-state {
   text-align: center;
+  margin-top: 50px;
+  font-size: 18px;
+  color: #555;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.title-S {
-  font-size: 50px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-  background: linear-gradient(45deg, #ffcc00, #ff6600, #ff0033, #cc00ff, #6600ff);
-  -webkit-background-clip: text;
-  color: white; /* ✅ Mantiene el color visible */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+.empty-state h2 {
+  font-size: 24px;
+  color: #007bff;
 }
 
-.description-S {
-  font-size: 25px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  background: linear-gradient(90deg, #ffffff, #ffcc00, #ff4500);
-  -webkit-background-clip: text;
-  color: white; /* ✅ Texto más sólido */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-/* Animación de brillo */
-@keyframes glowText {
-  0% { text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8), 0px 0px 10px #ff007f; }
-  100% { text-shadow: 6px 6px 12px rgba(0, 0, 0, 1), 0px 0px 15px #ff007f; }
-}
-
-/* Animación de pulso */
-@keyframes pulseText {
-  0% { opacity: 0.8; transform: scale(1); }
-  100% { opacity: 1; transform: scale(1.05); }
+.empty-state p {
+  font-size: 16px;
+  color: #666;
 }
