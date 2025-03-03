@@ -20,9 +20,9 @@ import SentimentAvgGraph from "./components/SentimentAvgGraph";
 import EvolucionSentimientosChart from "./components/EvolucionSentimientosChart";
 import HorasMensajesChart from "./components/HorasMensajesChart";
 
-const API_URL = "http://localhost:5000";
+//const API_URL = "http://localhost:5000";
 //RENDER
-//const API_URL = "https://analyzer-chat-back.onrender.com";
+const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
 
