@@ -282,6 +282,7 @@
   max-width: none; /* Eliminamos la limitación del 90% */
   margin: 0 auto;
 }
+
 .empty-state {
   text-align: center;
   margin-top: 50px;
@@ -297,4 +298,173 @@
 .empty-state p {
   font-size: 16px;
   color: #666;
+}
+
+/* ======= Responsividad ======= */
+@media (max-width: 768px) {
+  .loading-screen {
+    font-size: 18px; /* Texto más pequeño */
+  }
+
+  .spinner {
+    width: 50px; /* Más pequeño en móvil */
+    height: 50px;
+    border-width: 4px; /* Bordes más delgados */
+    margin-bottom: 15px; /* Menos espacio */
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-screen {
+    font-size: 16px; /* Texto aún más pequeño en pantallas muy chicas */
+  }
+
+  .spinner {
+    width: 40px; /* Spinner aún más pequeño */
+    height: 40px;
+    border-width: 3px; /* Bordes más finos */
+    margin-bottom: 10px;
+  }
+}
+
+/* ======= Animación del Spinner ======= */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ======= Sidebar (Modo Móvil Mejorado) ======= */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  /* Contenedor con scroll */
+  .sidebar-buttons {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 5px;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+
+  /* Indicador de scroll (sombra en los lados) */
+  .sidebar-buttons::before,
+  .sidebar-buttons::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .sidebar-buttons::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
+  }
+
+  .sidebar-buttons::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent);
+  }
+
+  /* Ocultar barra de desplazamiento en móviles */
+  .sidebar-buttons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-buttons {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Botones más compactos */
+  .sidebar button {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    min-width: 120px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* ======= Ajuste del Contenido Principal ======= */
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: 90px; /* Más espacio para evitar choque con el sidebar */
+    padding: 20px;
+  }
+}
+
+/* ======= Responsividad ======= */
+@media (max-width: 1024px) {
+  .content-container {
+    width: calc(100vw - 250px); /* Sidebar más reducido */
+    padding: 30px;
+  }
+
+  .content-container h2 {
+    font-size: 1.8rem; /* Un poco más pequeño */
+  }
+
+  .content-container img {
+    max-width: 90%; /* Permitimos un poco más de ancho */
+  }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    width: 90vw; /* Más ancho en pantallas pequeñas */
+    padding: 20px;
+    margin: 10px auto;
+  }
+
+  .content-container h2 {
+    font-size: 1.5rem; /* Reducimos tamaño del título */
+  }
+
+  .content-container div {
+    font-size: 1rem; /* Tamaño de texto más pequeño */
+  }
+
+  .content-container img {
+    max-width: 100%; /* Ocupar todo el espacio disponible */
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    width: 95vw; /* Más ancho en móviles */
+    padding: 15px;
+    margin: 5px auto;
+  }
+
+  .content-container h2 {
+    font-size: 1.3rem; /* Más pequeño en pantallas muy chicas */
+  }
+
+  .content-container div {
+    font-size: 0.9rem; /* Texto aún más pequeño */
+  }
 }

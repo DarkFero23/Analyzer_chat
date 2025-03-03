@@ -59,3 +59,114 @@
   font-size: 0.9rem;
   color: #777;
 }
+/* Efecto hover (se desactiva en pantallas táctiles) */
+@media (hover: hover) {
+  .emoji-item:hover {
+    background-color: #e9ecef;
+  }
+}
+
+/* Emoji y su conteo */
+.emoji-symbol {
+  font-size: 1.8rem;
+}
+
+.emoji-count {
+  font-weight: 500;
+  color: #555;
+}
+
+.emoji-percentage {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* ======= Responsividad ======= */
+@media (max-width: 1024px) {
+  .emoji-chart-container {
+    max-width: 80%;
+    padding: 1rem;
+  }
+
+  .emoji-chart-title {
+    font-size: 1.4rem;
+  }
+
+  .emoji-user-name {
+    font-size: 1.1rem;
+  }
+
+  .emoji-symbol {
+    font-size: 1.6rem;
+  }
+
+  .emoji-count {
+    font-size: 0.95rem;
+  }
+
+  .emoji-percentage {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .emoji-chart-container {
+    max-width: 90%;
+    padding: 0.8rem;
+  }
+
+  .emoji-chart-title {
+    font-size: 1.3rem;
+  }
+
+  .emoji-user-name {
+    font-size: 1rem;
+  }
+
+  .emoji-symbol {
+    font-size: 1.5rem;
+  }
+
+  .emoji-count {
+    font-size: 0.9rem;
+  }
+
+  .emoji-percentage {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emoji-chart-container {
+    max-width: 100%;
+    padding: 0.6rem;
+  }
+
+  .emoji-chart-title {
+    font-size: 1.2rem;
+  }
+
+  .emoji-user-name {
+    font-size: 0.95rem;
+  }
+
+  .emoji-symbol {
+    font-size: 1.4rem;
+  }
+
+  .emoji-count {
+    font-size: 0.85rem;
+  }
+
+  .emoji-percentage {
+    font-size: 0.75rem;
+  }
+
+  .emoji-list {
+    gap: 0.3rem;
+  }
+
+  .emoji-item {
+    padding: 0.6rem;
+  }
+}

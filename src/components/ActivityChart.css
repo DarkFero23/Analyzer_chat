@@ -28,3 +28,48 @@
   word-wrap: break-word; /* Permite que el texto se divida en varias líneas */
   text-align: center; /* Centra el texto dentro del tooltip */
 }
+/* ======= Responsividad ======= */
+@media (max-width: 1024px) {
+  .activity-chart-container {
+    max-width: 95%; /* Permitir más ancho en pantallas medianas */
+    padding: 25px;
+  }
+
+  .chart-title {
+    font-size: 24px; /* Reducimos un poco el tamaño del título */
+  }
+
+  .recharts-tooltip-wrapper {
+    max-width: 220px !important; /* Ajustamos el tamaño del tooltip */
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-chart-container {
+    max-width: 100%; /* Ocupar todo el ancho en pantallas pequeñas */
+    padding: 20px;
+  }
+
+  .chart-title {
+    font-size: 22px; /* Reducimos el título aún más */
+  }
+
+  .recharts-tooltip-wrapper {
+    max-width: 180px !important; /* Hacemos el tooltip más pequeño */
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-chart-container {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .chart-title {
+    font-size: 20px; /* Tamaño más pequeño para móviles */
+  }
+
+  .recharts-tooltip-wrapper {
+    max-width: 150px !important; /* Tooltip más compacto */
+  }
+}
