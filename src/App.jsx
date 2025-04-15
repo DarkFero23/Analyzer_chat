@@ -19,7 +19,6 @@ import WordCloudChart from "./components/WordCloudChart";
 import SentimentAvgGraph from "./components/SentimentAvgGraph";
 import EvolucionSentimientosChart from "./components/EvolucionSentimientosChart";
 import HorasMensajesChart from "./components/HorasMensajesChart";
-
 //const API_URL = "http://localhost:5000";
 //RENDER
 const API_URL = "https://analyzer-chat-back.onrender.com";
@@ -57,7 +56,7 @@ function App() {
   const [topWords, setTopWords] = useState(null);
   const [graficoEmociones, setGraficoEmociones] = useState(null);
   const [conteoToxicidad, setConteoToxicidad] = useState(null);
-  const [userToken, setUserToken] = useState(null); // Guardamos el user_token dinámico
+  const [archivoChatId, setarchivoChatId] = useState(null); // Guardamos el archivoChatId dinámico
   const [wordCloud, setWordCloud] = useState(null);
   const [fetchingData, setFetchingData] = useState(false);
 
@@ -89,8 +88,10 @@ function App() {
 
       const data = await response.json();
 
-      if (data.user_token) {
-        setUserToken(data.user_token);
+      if (data.archivo_chat_id) {
+        setarchivoChatId(data.archivo_chat_id);
+        console.log("📦 ID recibido:", data.archivo_chat_id);
+
       }
 
       Swal.fire(
@@ -130,14 +131,14 @@ function App() {
   };
 
   const fetchStats = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
 
     try {
       const response = await axios.get(
-        `${API_URL}/get_statistics?user_token=${userToken}`
+        `${API_URL}/get_statistics?archivo_chat_id=${archivoChatId}`
       );
       return response.data;
     } catch (error) {
@@ -150,13 +151,13 @@ function App() {
   };
 
   const fetchSentimentAnalysis = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await fetch(
-        `${API_URL}/analisis_sentimientos?user_token=${userToken}`
+        `${API_URL}/analisis_sentimientos?archivo_chat_id=${archivoChatId}`
       );
 
       if (response.status === 404) {
@@ -179,13 +180,13 @@ function App() {
   };
 
   const fetchPlot = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot.json?user_token=${userToken}`
+        `${API_URL}/plot.json?archivo_chat_id=${archivoChatId}`
       );
       return response.data; // Si la petición es exitosa, devuelve los datos.
     } catch (error) {
@@ -201,13 +202,13 @@ function App() {
   };
 
   const fetchTopEmojis = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/top_emojis?user_token=${userToken}`
+        `${API_URL}/top_emojis?archivo_chat_id=${archivoChatId}`
       );
       return response.data; // Retorna la lista de emojis con sus datos
     } catch (error) {
@@ -218,13 +219,13 @@ function App() {
   };
 
   const fetchPlotDates = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot_dates.json?user_token=${userToken}`
+        `${API_URL}/plot_dates.json?archivo_chat_id=${archivoChatId}`
       );
 
       return response.data; // Retorna los datos ya en formato JSON
@@ -236,13 +237,13 @@ function App() {
   };
 
   const fetchPlotMensajesAno = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot_mensajes_año.json?user_token=${userToken}`
+        `${API_URL}/plot_mensajes_año.json?archivo_chat_id=${archivoChatId}`
       );
 
       if (response.data.error) {
@@ -258,13 +259,13 @@ function App() {
   };
 
   const fetchPlotMensajesMes = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot_mensajes_mes.json?user_token=${userToken}`
+        `${API_URL}/plot_mensajes_mes.json?archivo_chat_id=${archivoChatId}`
       );
 
       if (response.data && response.data.mensajes_por_mes) {
@@ -280,13 +281,13 @@ function App() {
   };
 
   const fetchPlotHorasCompleto = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/horas_completo.json?user_token=${userToken}`
+        `${API_URL}/horas_completo.json?archivo_chat_id=${archivoChatId}`
       );
 
       console.log("Respuesta de la API:", response.data); // 👀 Verifica qué devuelve la API
@@ -304,13 +305,13 @@ function App() {
   };
 
   const fetchPlotTimeline = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot_timeline.json?user_token=${userToken}`
+        `${API_URL}/plot_timeline.json?archivo_chat_id=${archivoChatId}`
       );
       return response.data; // Devolvemos el JSON directamente
     } catch (error) {
@@ -324,13 +325,13 @@ function App() {
     }
   };
   const fetchPlotMensajesPorDia = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/plot_mensajes_por_dia.json?user_token=${userToken}`
+        `${API_URL}/plot_mensajes_por_dia.json?archivo_chat_id=${archivoChatId}`
       );
 
       console.log("🔍 Respuesta de la API:", response.data);
@@ -347,13 +348,13 @@ function App() {
   };
 
   const fetchEmotionalMessages = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await fetch(
-        `${API_URL}/mensajes_mayor_emocion?user_token=${userToken}`
+        `${API_URL}/mensajes_mayor_emocion?archivo_chat_id=${archivoChatId}`
       );
 
       if (response.status === 404) {
@@ -376,13 +377,13 @@ function App() {
   };
 
   const fetchConteoToxicidad = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire(
-        "No hay user_token disponible. Sube un archivo primero.",
+        "No hay archivoChatId disponible. Sube un archivo primero.",
         "",
         "warning"
       );
@@ -391,7 +392,7 @@ function App() {
 
     try {
       const response = await axios.get(
-        `${API_URL}/conteo_toxicidad?user_token=${userToken}`
+        `${API_URL}/conteo_toxicidad?archivo_chat_id=${archivoChatId}`
       );
       return response.data;
     } catch (error) {
@@ -405,13 +406,13 @@ function App() {
   };
 
   const fetchGraficoEmociones = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/grafico_emociones.png?user_token=${userToken}`,
+        `${API_URL}/grafico_emociones.png?archivo_chat_id=${archivoChatId}`,
         { responseType: "blob" }
       );
       return URL.createObjectURL(response.data);
@@ -430,18 +431,18 @@ function App() {
   };
 
   const fetchSentimentAvgGraph = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
-    if (!userToken) {
-      Swal.fire("Falta el user_token. Sube un archivo primero.", "", "warning");
+    if (!archivoChatId) {
+      Swal.fire("Falta el archivoChatId. Sube un archivo primero.", "", "warning");
       return null;
     }
 
     try {
       const response = await axios.get(
-        `${API_URL}/sentimiento_promedio_dia?user_token=${userToken}`
+        `${API_URL}/sentimiento_promedio_dia?archivo_chat_id=${archivoChatId}`
       );
 
       // Verificar si la respuesta fue exitosa y contiene los datos esperados
@@ -465,13 +466,13 @@ function App() {
     }
   };
   const fetchTopWordsSentiment = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/top_palabras_usuario?user_token=${userToken}`
+        `${API_URL}/top_palabras_usuario?archivo_chat_id=${archivoChatId}`
       );
 
       return response.data;
@@ -482,13 +483,13 @@ function App() {
   };
 
   const fetchGraficoEvolucionSentimientos = async () => {
-    if (!userToken) {
+    if (!archivoChatId) {
       Swal.fire("Sube un archivo primero.", "", "warning");
       return;
     }
     try {
       const response = await axios.get(
-        `${API_URL}/sentimientos_por_dia.json?user_token=${userToken}`
+        `${API_URL}/sentimientos_por_dia.json?archivo_chat_id=${archivoChatId}`
       );
 
       console.log(
@@ -525,7 +526,7 @@ function App() {
     try {
       setFetchingData(true);
       const response = await fetch(
-        `${API_URL}/nube_palabras?user_token=${userToken}&fecha=${fechaSeleccionada}`
+        `${API_URL}/nube_palabras?archivo_chat_id=${archivoChatId}&fecha=${fechaSeleccionada}`
       );
 
       const data = await response.json();
@@ -708,6 +709,13 @@ function App() {
         >
           📅 Palabras Toxicas por Usuario
         </button>
+        <button
+          onClick={() =>
+            fetchData(fetchWordCloud, "📅 Generar Nube de palabras del caht ")
+          }
+        >
+          📅 Nube de Palabras del chat
+        </button>
       </div>
 
       {/* Contenido Principal */}
@@ -807,9 +815,6 @@ function App() {
                     topDays={content.top_days}
                     bottomDays={content.bottom_days} //fetchPlotMensajesPorDia
                   /> //fetchPlotMensajesPorDia
-                ) : content.palabras &&
-                  Object.keys(content.palabras).length > 0 ? (
-                  <WordCloudChart fetchWordCloud={fetchWordCloud} />
                 ) : content.top_dias ? (
                   <SentimentAvgGraph sentimentData={content.top_dias} /> //fetchSentimentAvgGraph
                 ) : content.datos ? (
@@ -818,7 +823,12 @@ function App() {
                   /> //fetchGraficoEvolucionSentimientos
                 ) : content.datos_horas ? (
                   <HorasMensajesChart datos_horas={content.datos_horas} /> //fetchPlotHorasCompleto
-                ) : (
+                ) : 
+                
+                
+                
+                (
+
                   null(<pre>{JSON.stringify(content, null, 2)}</pre>)
                 )}
               </div>
