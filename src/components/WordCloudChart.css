@@ -1,75 +1,36 @@
 /* WordCloudChart.css */
-
-/* Contenedor principal de la nube de palabras */
-.wordcloud-chart-container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+.wordcloud-wrapper {
   text-align: center;
-  font-family: "Arial", sans-serif;
+  margin-top: 1.5rem;
 }
 
-/* Título del gráfico */
-.chart-title {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
+.wordcloud-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-/* Contenedor para el selector de fecha */
-.date-selector-container {
-  margin-bottom: 20px;
-}
-
-.date-selector-label {
-  font-size: 1rem;
-  color: #333;
-  margin-right: 10px;
-}
-
-.date-selector-input {
-  padding: 5px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-}
-
-/* Estilo para el canvas donde se dibujan las palabras */
 .wordcloud-container {
-  position: relative;
-  width: 100%;
-  height: 500px; /* Ajustar según el tamaño que desees */
-  overflow: hidden;
-  background-color: #f5f5f5; /* Fondo ligero para el área de la nube de palabras */
-  border: 1px solid #ddd; /* Borde sutil */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background-color: #f9fafb;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+}
+
+.wordcloud-word {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 5px 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #e5e7eb;
+  transition: transform 0.2s ease;
+  cursor: default;
 }
 
-/* Mensaje cuando no hay datos */
-.text-center {
-  text-align: center;
-}
-
-.text-gray-500 {
-  color: #6b7280;
-}
-
-p {
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Estilos adicionales */
-input[type="date"]:hover {
-  border-color: #008557; /* Color verde cuando se pasa el cursor */
-}
-
-input[type="date"]:focus {
-  border-color: #008557;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 133, 87, 0.5);
+.wordcloud-word:hover {
+  transform: scale(1.2);
+  background-color: #d1d5db;
 }

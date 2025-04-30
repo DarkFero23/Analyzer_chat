@@ -19,17 +19,20 @@ import WordCloudChart from "./components/WordCloudChart";
 import SentimentAvgGraph from "./components/SentimentAvgGraph";
 import EvolucionSentimientosChart from "./components/EvolucionSentimientosChart";
 import HorasMensajesChart from "./components/HorasMensajesChart";
-//const API_URL = "http://localhost:5000";
+import WordCountByUser from "./components/WordCountByUser"; // ajusta el path si está en otra carpeta
+import AutorReanudaChart from "./components/AutorReanudaChart"; // o ajusta la ruta si está en otra carpeta
+
+const API_URL = "http://localhost:5000";
 //RENDER
-const API_URL = "https://analyzer-chat-back.onrender.com";
+//const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
 
 function App() {
   const [wordCloudData, setWordCloudData] = useState([]);
-
+const [fechaSeleccionada, setFechaSeleccionada] = useState(""); // 🗓️ Para la fecha de la nube
+const [mostrarSelectorNube, setMostrarSelectorNube] = useState(false);
   const [data, setData] = useState({ timeline: [], top_days: [] }); // ✅ Inicializa `top_days` como array vacío
-  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState(""); // Estado para el título
   const [activeComponent, setActiveComponent] = useState(null);
@@ -515,50 +518,48 @@ function App() {
     setContent(data); // Guarda la data obtenida
   };
 
+  
   const fetchWordCloud = async (fechaSeleccionada) => {
     if (!fechaSeleccionada) {
-      console.warn(
-        "⚠️ No hay fecha seleccionada, no se ejecutará la petición."
-      );
+      Swal.fire("Selecciona una fecha primero.", "", "warning");
       return;
     }
-
+  
     try {
       setFetchingData(true);
       const response = await fetch(
         `${API_URL}/nube_palabras?archivo_chat_id=${archivoChatId}&fecha=${fechaSeleccionada}`
       );
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(
           data.error || "Error desconocido al obtener la nube de palabras"
         );
       }
-
+  
       if (!data.palabras || Object.keys(data.palabras).length === 0) {
         Swal.fire(
           `⚠️ No hay mensajes para la fecha ${fechaSeleccionada}.`,
           "",
           "warning"
         );
-        setWordCloudData(null);
         return;
       }
-
-      console.log("📥 Datos recibidos:", data);
-
-      // Convertir objeto a array y ordenar de mayor a menor frecuencia
+  
       const wordArray = Object.entries(data.palabras)
         .map(([palabra, valor]) => ({
           text: palabra,
           value: valor,
         }))
         .sort((a, b) => b.value - a.value);
-
+  
       console.log("📊 Palabras ordenadas:", wordArray);
+  
       setWordCloudData(wordArray);
+      return wordArray; // ⬅️ AGREGA ESTO
+
     } catch (error) {
       console.error("❌ Error:", error);
       Swal.fire(error.message, "", "error");
@@ -566,7 +567,58 @@ function App() {
       setFetchingData(false);
     }
   };
+  
 
+
+  const fetchConteoPalabra = async () => {
+    if (!archivoChatId) {
+      Swal.fire("Sube un archivo primero.", "", "warning");
+      return;
+    }
+  
+    const palabra = prompt("¿Qué palabra quieres buscar?");
+    if (!palabra) {
+      Swal.fire("Debes ingresar una palabra para buscar.", "", "info");
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      const response = await axios.get(
+        `${API_URL}/contar_palabra?archivo_chat_id=${archivoChatId}&palabra=${palabra}`
+      );
+  
+      if (!response.data) {
+        throw new Error("No se encontró respuesta válida");
+      }
+  
+      setSelectedTitle(`🔠 Conteo de: "${palabra}"`);
+      setContent(response.data); // 👈 Fuerza re-render con el nuevo resultado
+    } catch (error) {
+      console.error("Error al contar palabra:", error);
+      Swal.fire("Error al contar la palabra.", "", "error");
+    } finally {
+      setLoading(false); // ✅ Ocultar loading pase lo que pase
+    }
+  };
+  
+  const fetchAutorReanudaMas = async (archivoChatId) => {
+    const response = await axios.get(
+      `${API_URL}/autor_que_reanuda_mas?archivo_chat_id=${archivoChatId}`
+    );
+    return { tipo: "reanuda", ...response.data };
+  };
+
+  const fetchNubePalabras = async (archivoChatId, fecha = "") => {
+    let url = `${API_URL}/nube_palabras?archivo_chat_id=${archivoChatId}`;
+    if (fecha) {
+      url += `&fecha=${fecha}`;
+    }
+  
+    const response = await axios.get(url);
+    return response.data;
+  };
   return (
     <div className="dashboard">
       {/* Sidebar */}
@@ -709,14 +761,37 @@ function App() {
         >
           📅 Palabras Toxicas por Usuario
         </button>
-        <button
+        { /* <button
           onClick={() =>
             fetchData(fetchWordCloud, "📅 Generar Nube de palabras del caht ")
           }
         >
           📅 Nube de Palabras del chat
         </button>
-      </div>
+        */}
+        <button
+        onClick={() =>
+          setContent({ modo_conteo_palabra: true }) // Esto activa el modo input
+        }
+      >
+        🔠 Buscar Palabra por Usuario
+      </button>
+
+      <button
+        onClick={() =>
+          fetchData(() => fetchAutorReanudaMas(archivoChatId), "🔁 Reanudación de Conversación")
+        }
+      >
+        🔁 Reanudación de Conversación
+      </button>
+
+      {/*  <button onClick={() => {
+  setContent({ tipo: "nube_palabras" });
+  setMostrarSelectorNube(true); // Activa el selector
+}}>
+  ☁️ Nube de Palabras
+</button>*/}
+</div>
 
       {/* Contenido Principal */}
       <div className="main-content expanded">
@@ -769,13 +844,30 @@ function App() {
         )}
 
         {/* Contenedor de contenido */}
-
+       
         {content && (
           <div className="content-container">
             <h2>{selectedTitle || "📊 Aquí aparecerán los gráficos"}</h2>
 
             <div className="mt-6 w-full max-w-7xl">
               <div className="p-8 bg-white rounded-lg shadow-lg">
+              {content.tipo === "nube_palabras" && mostrarSelectorNube && (
+  <div className="nube-palabras-controls">
+    <input
+      type="date"
+      value={fechaSeleccionada}
+      onChange={(e) => setFechaSeleccionada(e.target.value)}
+    />
+    <button
+      onClick={() => {
+        fetchData(() => fetchWordCloud(fechaSeleccionada), "☁️ Nube de Palabras");
+        setMostrarSelectorNube(false);
+      }}
+    >
+      🔍 Buscar en esa fecha
+    </button>
+  </div>
+)}
                 {typeof content === "string" ? (
                   <img
                     src={content}
@@ -822,14 +914,25 @@ function App() {
                     evolucionSentimientosData={content.datos}
                   /> //fetchGraficoEvolucionSentimientos
                 ) : content.datos_horas ? (
-                  <HorasMensajesChart datos_horas={content.datos_horas} /> //fetchPlotHorasCompleto
-                ) : 
+                  <HorasMensajesChart datos_horas={content.datos_horas} />
+                  
+                ) : content.modo_conteo_palabra ? (
+                  <WordCountByUser
+                    archivoChatId={archivoChatId}
+                    fetchPalabra={async (palabra) => {
+                      const response = await axios.get(
+                        `${API_URL}/contar_palabra?archivo_chat_id=${archivoChatId}&palabra=${palabra}`
+                      );
+                      return response.data;
+                    }}
+                  />
                 
-                
-                
-                (
-
-                  null(<pre>{JSON.stringify(content, null, 2)}</pre>)
+                ) : content.tipo === "reanuda" ? (
+                  <AutorReanudaChart data={content} />
+                ) : content.tipo === "nube_palabras" && !mostrarSelectorNube && wordCloudData ? (
+                  <WordCloudChart palabras={wordCloudData} />
+                ) : (
+                  <pre>{JSON.stringify(content, null, 2)}</pre>
                 )}
               </div>
             </div>
