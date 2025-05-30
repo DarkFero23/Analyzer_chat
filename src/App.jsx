@@ -22,9 +22,9 @@ import HorasMensajesChart from "./components/HorasMensajesChart";
 import WordCountByUser from "./components/WordCountByUser"; // ajusta el path si está en otra carpeta
 import AutorReanudaChart from "./components/AutorReanudaChart"; // o ajusta la ruta si está en otra carpeta
 
-const API_URL = "http://localhost:5000";
+//const API_URL = "http://localhost:5000";
 //RENDER
-//const API_URL = "https://analyzer-chat-back.onrender.com";
+const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
 
