@@ -258,7 +258,7 @@
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 20px auto;
-  overflow: hidden; /* Evita que el contenido haga overflow */
+  overflow: auto; /* Evita que el contenido haga overflow */
 }
 
 /* Asegurar que el contenido dentro del contenedor sea más grande */
