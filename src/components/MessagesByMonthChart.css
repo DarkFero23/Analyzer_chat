@@ -1,24 +1,64 @@
+/* MessagesByMonthChart.css */
+
+/* Contenedor base */
 .messages-by-month-chart-container {
   background: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* Título */
 .chart-title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
   color: #333;
-  margin-bottom: 10px;
+  text-align: left;
 }
 
-/* Animación suave al pasar el mouse */
+/* Mensaje “no data” */
+.no-data {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Hover en barras */
 .recharts-bar-rectangle {
-  transition: transform 0.2s ease-in-out, fill 0.2s ease-in-out;
+  transition: transform 0.2s ease, fill 0.2s ease;
 }
-
 .recharts-bar-rectangle:hover {
   fill: #2e8b57 !important;
-  transform: scaleY(1.01); /* 👈 Solo aumenta un 5% en altura */
+  transform: scaleY(1.02);
+}
+
+/* Wrapper que define altura */
+.chart-wrapper {
+  width: 100%;
+  height: 500px; /* Alto por defecto en escritorio */
+}
+
+/* ===== Responsive móvil (<768px) ===== */
+@media (max-width: 768px) {
+  .messages-by-month-chart-container {
+    padding: 12px;
+  }
+  .chart-title {
+    font-size: 16px;
+  }
+  .chart-wrapper {
+    height: 300px; /* Alto reducido en móvil */
+  }
+  /* Ajustar ticks del eje X en móvil */
+  .recharts-x-axis text {
+    font-size: 10px !important;
+    transform: rotate(-45deg);
+    text-anchor: end;
+  }
+  /* Espacio extra para ticks */
+  .recharts-cartesian-axis-ticks {
+    transform: translateY(20px);
+  }
 }
