@@ -1,11 +1,21 @@
+/* EvolucionSentimientosChart.css */
 .evolucion-sentimientos-chart-container {
+  position: relative;
+  width: 100%;
   max-width: 900px;
   margin: 20px auto;
   padding: 20px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Ajuste de altura del contenedor de Recharts */
+.evolucion-sentimientos-chart-container .recharts-responsive-container {
+  width: 95% !important;
+  height: 500px !important;
+  margin: 0 auto;
 }
 
 .chart-title {
@@ -16,6 +26,7 @@
   text-transform: uppercase;
 }
 
+/* Leyenda y tooltip */
 .recharts-legend-item text {
   font-size: 14px !important;
   font-weight: bold;
@@ -26,8 +37,57 @@
   font-weight: bold;
 }
 
+/* Ejes */
 .recharts-cartesian-axis-tick text {
   font-size: 12px;
   font-weight: bold;
   fill: #333;
+}
+
+/* ===== Responsividad ===== */
+@media (max-width: 1024px) {
+  .evolucion-sentimientos-chart-container {
+    padding: 16px;
+  }
+  .chart-title {
+    font-size: 20px;
+  }
+  .evolucion-sentimientos-chart-container .recharts-responsive-container {
+    height: 400px !important;
+  }
+  .recharts-cartesian-axis-tick text {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .evolucion-sentimientos-chart-container {
+    padding: 12px;
+  }
+  .chart-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .evolucion-sentimientos-chart-container .recharts-responsive-container {
+    height: 300px !important;
+  }
+  .recharts-cartesian-axis-tick text {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .evolucion-sentimientos-chart-container {
+    padding: 8px;
+  }
+  .chart-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .evolucion-sentimientos-chart-container .recharts-responsive-container {
+    height: 250px !important;
+  }
+  .recharts-cartesian-axis-tick text {
+    font-size: 9px;
+  }
 }

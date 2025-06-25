@@ -711,7 +711,7 @@ function App() {
           >
             📈 Gráfico Lineal de Mensajes por Día
           </button>
-          <button
+          {/*<button
             onClick={() =>
               fetchData(
                 fetchSentimentAvgGraph,
@@ -720,8 +720,9 @@ function App() {
             }
           >
             📊 Sentimientos positivos y negativos por día
-          </button>
-          <button
+          </button>*/}
+
+          {/* <button
             onClick={() =>
               fetchData(
                 fetchGraficoEvolucionSentimientos,
@@ -730,7 +731,7 @@ function App() {
             }
           >
             📅 Carga emocional por día
-          </button>
+          </button> */}
           <button
             onClick={() =>
               fetchData(fetchPlotHorasCompleto, "📊 Horas de más actividad")

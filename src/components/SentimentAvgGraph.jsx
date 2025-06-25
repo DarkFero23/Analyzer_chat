@@ -1,3 +1,5 @@
+//boton:"📊 Sentimientos positivos y negativos por día"
+
 import React, { useEffect } from "react";
 import {
   BarChart,

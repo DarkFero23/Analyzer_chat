@@ -1,4 +1,4 @@
-// MessagesByMonthChart.jsx
+// BOTON:📊 Gráfico de Mensajes por Mes
 import React from "react";
 import {
   BarChart,
@@ -31,7 +31,8 @@ const MessagesByMonthChart = ({ data }) => {
               dataKey="mes"
               tick={{ fill: "#333", fontSize: 12 }}
               interval={0}
-              height={60}
+              height={80}
+              tickMargin={10} /* + espacio entre línea y etiqueta */
               angle={-45}
               textAnchor="end"
               padding={{ left: 10, right: 10 }}

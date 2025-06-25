@@ -1,3 +1,4 @@
+//BOTON: EL DE ESTADISTICAS
 import React from "react";
 import "./ChatStats.css"; // Importa el CSS
 

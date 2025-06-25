@@ -1,3 +1,5 @@
+//BOTON:🔠 Buscar palabra por autor
+
 import React, { useState } from "react";
 import "./WordCountByUser.css";
 
@@ -40,14 +42,16 @@ const WordCountByUser = ({ archivoChatId, fetchPalabra }) => {
             <p className="sin-datos">❌ Ningún autor dijo la palabra.</p>
           ) : (
             <div className="cards-grid">
-              {Object.entries(resultado.conteo_por_autor).map(([autor, cantidad]) => (
-                <div key={autor} className="word-card">
-                  <p className="autor-nombre">{autor}</p>
-                  <p className="autor-cantidad">
-                    {cantidad} {cantidad === 1 ? "vez" : "veces"}
-                  </p>
-                </div>
-              ))}
+              {Object.entries(resultado.conteo_por_autor).map(
+                ([autor, cantidad]) => (
+                  <div key={autor} className="word-card">
+                    <p className="autor-nombre">{autor}</p>
+                    <p className="autor-cantidad">
+                      {cantidad} {cantidad === 1 ? "vez" : "veces"}
+                    </p>
+                  </div>
+                )
+              )}
             </div>
           )}
         </>

@@ -1,4 +1,5 @@
-import React from "react";
+// Btoon Grafico de dias mas activos del caht .jsx
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -11,8 +12,18 @@ import {
 } from "recharts";
 import "./TopActiveDaysChart.css";
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+};
+
 const TopActiveDaysChart = ({ data }) => {
-  console.log("📊 Datos recibidos en TopActiveDaysChart:", data);
+  const width = useWindowWidth();
 
   if (!data || data.length === 0) {
     return (
@@ -23,34 +34,68 @@ const TopActiveDaysChart = ({ data }) => {
   return (
     <div className="top-active-days-chart-container">
       <h2 className="chart-title">📊 Días Más Activos del Chat</h2>
-      <ResponsiveContainer width="100%" height={500}>
-        <BarChart
-          data={data}
-          margin={{ top: 20, right: 50, left: 50, bottom: 50 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
-          <XAxis dataKey="day" tick={{ fill: "#333", fontSize: 14 }} />
-          <YAxis tick={{ fill: "#333", fontSize: 14 }} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "rgba(255, 255, 255, 0.9)",
-              borderRadius: "8px",
-              border: "1px solid #ddd",
-              padding: "10px",
+      <div className="chart-wrapper">
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 20,
+              left: width <= 480 ? 30 : 60,
+              bottom: width <= 480 ? 30 : 40,
             }}
-          />
-          <Legend />
-          <Bar
-            dataKey="count"
-            fill="#4CAF50"
-            barSize={60} // Barras más gruesas
-            radius={[10, 10, 0, 0]} // Bordes redondeados arriba
-            animationBegin={200}
-            animationDuration={1000}
-            onMouseEnter={(data, index, e) => console.log("📌 Hover en:", data)}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+            barCategoryGap="20%"
+          >
+            <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.5} />
+            <XAxis
+              dataKey="day"
+              tick={{
+                fill: "#333",
+                fontSize: width <= 480 ? 10 : 12,
+              }}
+              height={width <= 480 ? 100 : 40}
+              tickMargin={width <= 480 ? 10 : 5}
+              angle={width <= 480 ? -90 : 0}
+              textAnchor={width <= 480 ? "end" : "middle"}
+            />
+            <YAxis
+              domain={[0, "auto"]}
+              tick={{ fill: "#333", fontSize: width <= 480 ? 10 : 12 }}
+              allowDecimals={false}
+              width={width <= 480 ? 35 : 50}
+              tickMargin={4}
+            />
+            <Tooltip
+              formatter={(value, name) => [`${value}`, "Mensajes"]}
+              contentStyle={{
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                padding: "10px",
+              }}
+            />
+            <Legend
+              verticalAlign="top"
+              height={36}
+              wrapperStyle={{
+                fontSize: width <= 480 ? "11px" : "12px",
+                paddingBottom: "10px",
+              }}
+              formatter={() => "Mensajes"}
+            />
+            <Bar
+              dataKey="count"
+              name="Mensajes"
+              fill="#4CAF50"
+              barSize={width <= 480 ? 35 : 60}
+              radius={[8, 8, 0, 0]}
+              animationBegin={300}
+              animationDuration={1000}
+              onMouseEnter={(data) => console.log("📌 Hover en:", data)}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

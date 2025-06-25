@@ -1,3 +1,4 @@
+//boton 📈 Gráfico Lineal de Mensajes por Día
 import React from "react";
 import {
   LineChart,
@@ -52,7 +53,7 @@ const MessagesTimeline = ({ timelineDataDay, topDays, bottomDays }) => {
   return (
     <div className="timeline-container">
       <div className="chart-content">
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={formattedData}
             margin={{ top: 20, right: 30, left: 20, bottom: 50 }}
@@ -74,8 +75,9 @@ const MessagesTimeline = ({ timelineDataDay, topDays, bottomDays }) => {
               type="monotone"
               dataKey="mensajes"
               stroke="#32CD32"
-              strokeWidth={3}
-              dot={{ fill: "#32CD32", r: 5 }}
+              strokeWidth={window.innerWidth < 480 ? 1.5 : 3}
+              dot={{ fill: "#32CD32", r: window.innerWidth < 480 ? 2 : 5 }}
+              activeDot={{ r: window.innerWidth < 480 ? 4 : 8 }}
               animationDuration={1200}
             />
           </LineChart>
@@ -84,7 +86,7 @@ const MessagesTimeline = ({ timelineDataDay, topDays, bottomDays }) => {
 
       {/* 📅 Leyenda ahora a la derecha */}
       <div className="legend-box">
-        <h3>📅 Días Destacados</h3>
+        <h3>📋 Resumen de Días</h3>
         <div className="legend-section">
           <strong className="legend-title">🔥 Días con más mensajes:</strong>
           <ul>

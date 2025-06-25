@@ -1,53 +1,50 @@
-.emotional-container {
-    background-color: #2c3e50;
-    color: rgb(0, 0, 0);
-    padding: 16px;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 0 auto;
+/* MensajesPorMesChart.css */
+
+/* Contenedor principal */
+.mensajes-mes-container {
+  width: 100%;
+  max-width: 700px; /* Ajusta el ancho máximo */
+  margin: 0 auto; /* Centra horizontalmente */
+  padding: 16px; /* Espacio interno */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 400px; /* Altura inicial para el canvas */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título del chart */
+.mensajes-mes-container h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Fuerza al canvas de Chart.js a ocupar todo el espacio restante */
+.mensajes-mes-container canvas {
+  width: 100% !important;
+  height: calc(100% - 2rem) !important; /* Resta el espacio del título */
+}
+
+/* ======= Responsividad ======= */
+@media (max-width: 768px) {
+  .mensajes-mes-container {
+    padding: 12px;
+    height: 300px;
   }
-  
-  h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 12px;
+  .mensajes-mes-container h3 {
+    font-size: 1.3rem;
   }
-  
-  .emotional-section {
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-  }
-  
-  .positivos {
-    background-color: #27ae60; /* Verde */
-  }
-  
-  .negativos {
-    background-color: #e74c3c; /* Rojo */
-  }
-  
-  h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  li {
-    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 480px) {
+  .mensajes-mes-container {
     padding: 8px;
-    border-radius: 4px;
-    margin-bottom: 6px;
+    height: 250px;
   }
-  
-  .fecha {
-    font-size: 12px;
-    color: #040404;
-    margin-left: 6px;
+  .mensajes-mes-container h3 {
+    font-size: 1.1rem;
   }
-  
+}

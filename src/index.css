@@ -176,17 +176,18 @@
   border-radius: 15px;
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
-  width: 100%;
+  width: 90%;
   max-width: 700px;
+  margin: 30px auto; /* 🟢 Centrado vertical y horizontal */
   transition: all 0.3s ease-in-out;
 }
 
 /* Título */
 .upload-section h1 {
-  font-size: 26px;
-  color: #1e3a8a; /* Azul profundo */
+  font-size: 28px;
+  color: #1e3a8a;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 /* Descripción */
@@ -199,20 +200,20 @@
 /* Zona de arrastre */
 .drag-area {
   border: 2px dashed #3b82f6;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(59, 130, 246, 0.05);
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
   transition: 0.3s;
 }
 
 .drag-area:hover {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(59, 130, 246, 0.1);
   transform: scale(1.02);
 }
 
 /* Icono dentro de la zona de arrastre */
 .drag-area i {
-  font-size: 40px;
+  font-size: 48px;
   color: #1e40af;
   margin-bottom: 10px;
 }
@@ -222,6 +223,7 @@
   font-size: 18px;
   color: #1e40af;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
 /* Botón para seleccionar archivo */
@@ -267,36 +269,92 @@
   transform: scale(1.05);
 }
 
-/* ======= Loading Screen ======= */
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+  .upload-section {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .upload-section h1 {
+    font-size: 22px;
+  }
+
+  .drag-area i {
+    font-size: 36px;
+  }
+
+  .drag-area p {
+    font-size: 16px;
+  }
+
+  .file-label,
+  .upload-button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-section {
+    margin: 20px auto;
+  }
+
+  .upload-section h1 {
+    font-size: 20px;
+  }
+
+  .drag-area {
+    padding: 20px;
+  }
+
+  .file-label,
+  .upload-button {
+    width: 100%; /* 🟢 En móviles, que los botones ocupen todo el ancho */
+    box-sizing: border-box;
+  }
+}
+
+/* ======= Loading Screen Mejorado Elegante ======= */
 .loading-screen {
-  position: fixed; /* Cubre toda la pantalla */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+  inset: 0; /* ✅ Garantiza cubrir todo */
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(20, 20, 20, 0.95),
+    rgba(0, 0, 0, 1)
+  );
   display: flex;
-  flex-direction: column; /* Acomoda los elementos en columna */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  color: white; /* Texto en blanco */
+  color: #ffffff;
+  font-family: "Segoe UI", sans-serif;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.4s ease-in-out;
 }
 
-/* ======= Spinner ======= */
+/* ======= Spinner Neón Gris Elegante ======= */
 .spinner {
-  width: 80px; /* Más grande */
+  width: 80px;
   height: 80px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  border: 6px solid rgba(255, 255, 255, 0.15);
+  border-top: 6px solid #ccc; /* Gris clarito */
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px; /* Espacio entre el spinner y el texto */
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px #aaa, 0 0 20px #aaa inset; /* Neón gris */
 }
 
-/* ======= Animación de Rotación ======= */
+/* ======= Animaciones ======= */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -306,12 +364,47 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+  .loading-screen {
+    font-size: 18px;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 4px;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-screen {
+    font-size: 16px;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+    margin-bottom: 10px;
+  }
+}
 /* ======= Contenedor de Contenido ======= */
 .content-container {
-  width: calc(
-    100vw - 300px
-  ); /* Ajusta el ancho restando el espacio del sidebar */
-  max-width: 1200px; /* No dejamos que se haga demasiado grande */
+  width: calc(100vw - 300px); /* Sidebar en desktop */
+  max-width: 1200px;
   min-height: 90vh;
   background: white;
   padding: 40px;
@@ -319,31 +412,83 @@
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 20px auto;
-  overflow: auto; /* Evita que el contenido haga overflow */
+  overflow: auto;
+  box-sizing: border-box; /* ✅ Importante para que padding no expanda el ancho */
 }
 
-/* Asegurar que el contenido dentro del contenedor sea más grande */
+/* Títulos grandes */
 .content-container h2 {
-  font-size: 2rem; /* Agrandamos el título */
+  font-size: 2rem;
   margin-bottom: 20px;
 }
 
-/* Asegurar que las imágenes no se estiren */
+/* Imágenes adaptables */
 .content-container img {
-  max-width: 80%; /* Limitamos el ancho máximo */
-  height: auto; /* Mantenemos la proporción */
+  max-width: 80%;
+  height: auto;
   display: block;
-  margin: 0 auto; /* Centramos las imágenes */
-}
-
-/* Aumentamos el tamaño del contenido dentro */
-.content-container div {
-  font-size: 1.2rem;
-  width: 100%; /* Que tome todo el ancho disponible */
-  max-width: none; /* Eliminamos la limitación del 90% */
   margin: 0 auto;
 }
 
+/* Ajustes de texto */
+/* Solo afecta los divs de texto dentro de tu contenido principal */
+.content-container > .content-text {
+  font-size: 1.2rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ======= Responsividad ======= */
+@media (max-width: 1024px) {
+  .content-container {
+    width: calc(100vw - 250px); /* Sidebar más angosto */
+    padding: 30px;
+  }
+
+  .content-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .content-container img {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    width: 100vw; /* ✅ En móvil, ocupar todo el ancho */
+    padding: 20px;
+    margin: 10px auto;
+  }
+
+  .content-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .content-container div {
+    font-size: 1rem;
+  }
+
+  .content-container img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    width: 100vw; /* ✅ En móviles pequeños */
+    padding: 15px;
+    margin: 5px auto;
+  }
+
+  .content-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .content-container div {
+    font-size: 0.9rem;
+  }
+}
 .empty-state {
   text-align: center;
   margin-top: 50px;
@@ -359,43 +504,6 @@
 .empty-state p {
   font-size: 16px;
   color: #666;
-}
-
-/* ======= Responsividad ======= */
-@media (max-width: 768px) {
-  .loading-screen {
-    font-size: 18px; /* Texto más pequeño */
-  }
-
-  .spinner {
-    width: 50px; /* Más pequeño en móvil */
-    height: 50px;
-    border-width: 4px; /* Bordes más delgados */
-    margin-bottom: 15px; /* Menos espacio */
-  }
-}
-
-@media (max-width: 480px) {
-  .loading-screen {
-    font-size: 16px; /* Texto aún más pequeño en pantallas muy chicas */
-  }
-
-  .spinner {
-    width: 40px; /* Spinner aún más pequeño */
-    height: 40px;
-    border-width: 3px; /* Bordes más finos */
-    margin-bottom: 10px;
-  }
-}
-
-/* ======= Animación del Spinner ======= */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 /* ======= Sidebar (Modo Móvil Mejorado) ======= */
@@ -482,58 +590,6 @@
   .upload-section {
     padding: 20px;
     width: 95%;
-  }
-}
-
-/* ======= Responsividad ======= */
-@media (max-width: 1024px) {
-  .content-container {
-    width: calc(100vw - 250px); /* Sidebar más reducido */
-    padding: 30px;
-  }
-
-  .content-container h2 {
-    font-size: 1.8rem; /* Un poco más pequeño */
-  }
-
-  .content-container img {
-    max-width: 90%; /* Permitimos un poco más de ancho */
-  }
-}
-
-@media (max-width: 768px) {
-  .content-container {
-    width: 90vw; /* Más ancho en pantallas pequeñas */
-    padding: 20px;
-    margin: 10px auto;
-  }
-
-  .content-container h2 {
-    font-size: 1.5rem; /* Reducimos tamaño del título */
-  }
-
-  .content-container div {
-    font-size: 1rem; /* Tamaño de texto más pequeño */
-  }
-
-  .content-container img {
-    max-width: 100%; /* Ocupar todo el espacio disponible */
-  }
-}
-
-@media (max-width: 480px) {
-  .content-container {
-    width: 95vw; /* Más ancho en móviles */
-    padding: 15px;
-    margin: 5px auto;
-  }
-
-  .content-container h2 {
-    font-size: 1.3rem; /* Más pequeño en pantallas muy chicas */
-  }
-
-  .content-container div {
-    font-size: 0.9rem; /* Texto aún más pequeño */
   }
 }
 

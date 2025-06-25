@@ -1,3 +1,5 @@
+//Boton: 📅 Palabras Tóxicas por Usuario
+
 import React from "react";
 import "./OffensiveWords.css"; // Importamos el CSS
 

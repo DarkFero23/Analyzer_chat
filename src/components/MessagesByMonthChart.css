@@ -43,13 +43,13 @@
 /* ===== Responsive móvil (<768px) ===== */
 @media (max-width: 768px) {
   .messages-by-month-chart-container {
-    padding: 12px;
+    padding: 14px;
   }
   .chart-title {
     font-size: 16px;
   }
   .chart-wrapper {
-    height: 300px; /* Alto reducido en móvil */
+    height: 400px; /* Alto reducido en móvil */
   }
   /* Ajustar ticks del eje X en móvil */
   .recharts-x-axis text {
@@ -59,6 +59,6 @@
   }
   /* Espacio extra para ticks */
   .recharts-cartesian-axis-ticks {
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
 }

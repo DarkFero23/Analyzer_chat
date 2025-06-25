@@ -1,3 +1,5 @@
+//BOTON _:"📈 Gráfico de barras de sentimientos del chat"
+
 import React from "react";
 import {
   BarChart,
@@ -35,15 +37,28 @@ const SentimentStats = ({ sentiment }) => {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={data}
-            margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
+            margin={{ top: 10, right: 10, left: 10, bottom: 30 }}
+            barGap={10}
+            barCategoryGap="20%"
           >
-            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 13 }} />
+            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 12 }} />
             <YAxis
+              domain={[0, 100]}
               tickFormatter={formatPercent}
-              tick={{ fill: "#555", fontSize: 13 }}
+              tick={{ fill: "#555", fontSize: 12 }}
             />
             <Tooltip formatter={formatPercent} />
-            <Legend wrapperStyle={{ fontSize: "12px" }} />
+            <Legend
+              wrapperStyle={{
+                fontSize: "12px",
+                bottom: 0,
+                position: "absolute",
+                width: "100%",
+                textAlign: "center",
+              }}
+              layout="horizontal"
+              verticalAlign="bottom"
+            />
             <Bar
               dataKey="Negativo"
               fill="#ff6b6b"

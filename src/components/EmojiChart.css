@@ -81,6 +81,23 @@
   color: #777;
 }
 
+/* EmojiChart.css */
+.emoji-chart-container {
+  width: 100%;
+  max-width: 650px;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.emoji-chart-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 /* ======= Responsividad ======= */
 @media (max-width: 1024px) {
   .emoji-chart-container {
@@ -168,5 +185,24 @@
 
   .emoji-item {
     padding: 0.6rem;
+  }
+}
+
+/* Responsividad adicional */
+@media (max-width: 768px) {
+  .emoji-chart-container {
+    padding: 0.8rem;
+  }
+  .emoji-chart-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emoji-chart-container {
+    padding: 0.6rem;
+  }
+  .emoji-chart-title {
+    font-size: 1.2rem;
   }
 }

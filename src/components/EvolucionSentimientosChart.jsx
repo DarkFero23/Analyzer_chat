@@ -1,3 +1,4 @@
+//BOTON Carga emocional por día
 import React, { useEffect } from "react";
 import {
   BarChart,

@@ -1,3 +1,4 @@
+// BOTON: 📝 Palabras más usadas por autores
 import React from "react";
 import "./TopWords.css"; // Importa el archivo CSS
 

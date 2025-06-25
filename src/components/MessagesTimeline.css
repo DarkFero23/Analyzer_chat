@@ -1,64 +1,202 @@
+/* ======== Contenedor General ======== */
 .timeline-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 30px;
   align-items: flex-start;
-  background-color: #f8f8f8;
+  justify-content: center;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  gap: 20px;
+  flex-wrap: wrap; /* Permite que en móvil se apilen */
 }
 
-/* 🏆 Espacio para el gráfico */
+/* ======== Gráfico ======== */
 .chart-content {
-  flex: 3;
+  flex: 1 1 600px;
+  min-width: 300px;
+  height: auto; /* ✅ Asegura altura dinámica */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* 📅 Leyenda ahora ocupa un espacio a la derecha */
+/* ======== Leyenda ======== */
 .legend-box {
-  flex: 1;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: left;
-}
-
-.legend-box h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.legend-section {
-  margin-top: 10px;
+  flex: 1 1 300px;
+  min-width: 250px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .legend-title {
-  font-size: 14px;
-  color: #222;
-  display: block;
-  margin-bottom: 5px;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.legend-box ul {
-  list-style: none;
-  padding: 0;
+.legend-section {
+  margin-bottom: 20px;
+}
+
+.top-day,
+.bottom-day {
+  font-size: 0.95rem;
+  margin: 4px 0;
+}
+
+/* ======== Responsividad para móviles ======== */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .chart-content {
+    flex: 1 1 600px;
+    min-width: 300px;
+    height: auto; /* ✅ Asegura altura dinámica */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .legend-box {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .legend-title {
+    font-size: 1rem;
+  }
+
+  .top-day,
+  .bottom-day {
+    font-size: 0.9rem;
+  }
+}
+.timeline-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chart-content {
+  flex: 1 1 600px;
+  min-width: 300px;
+  height: auto; /* ✅ Asegura altura dinámica */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.legend-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 1rem;
+  border-left: 1px solid #ccc;
+}
+
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+  }
+
+  .legend-box {
+    border-left: none;
+    border-top: 1px solid #ccc;
+  }
+}
+/* Estilo general del contenedor */
+.timeline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+/* Contenedor del gráfico */
+.chart-content {
+  flex: 1 1 600px;
+  min-width: 300px;
+  height: auto; /* ✅ Asegura altura dinámica */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Leyenda lateral */
+.legend-box {
+  flex: 0 1 300px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+}
+
+/* Sección de la leyenda */
+.legend-section {
+  margin-bottom: 1rem;
+}
+
+.legend-title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Lista de días */
+.legend-section ul {
+  list-style: disc;
+  padding-left: 1.2rem;
   margin: 0;
 }
 
-.legend-box li {
-  font-size: 13px;
-  padding: 3px 0;
-}
-
 .top-day {
-  color: #ff0000;
-  font-weight: bold;
+  color: #d33;
+  font-weight: 500;
 }
 
 .bottom-day {
-  color: #0000ff;
-  font-weight: bold;
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .legend-box {
+    width: 100%;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .legend-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+@media (max-width: 768px) {
+  .timeline-container {
+    gap: 0.5rem; /* 🔥 Menor separación */
+    padding: 0.5rem;
+  }
+
+  .chart-content {
+    margin-bottom: 0.5rem;
+  }
+
+  .legend-box {
+    margin-top: 0;
+  }
 }
