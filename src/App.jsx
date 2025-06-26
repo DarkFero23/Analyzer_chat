@@ -23,7 +23,7 @@ import WordCountByUser from "./components/WordCountByUser"; // ajusta el path si
 import AutorReanudaChart from "./components/AutorReanudaChart"; // o ajusta la ruta si está en otra carpeta
 
 //const API_URL = "http://localhost:5000";
-//RENDER
+//RENDERs
 const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
@@ -635,6 +635,18 @@ function App() {
           >
             📊 Estadísticas Generales del Chat
           </button>
+
+          {/* === GRÁFICOS DE BARRAS === */}
+          <button
+            onClick={() =>
+              fetchData(
+                fetchPlot,
+                "📊 Gráfico de barras del total de mensajes por dias"
+              )
+            }
+          >
+            📊 Gráfico de barras del total de mensajes por dias
+          </button>
           <button
             onClick={() =>
               fetchData(
@@ -654,16 +666,6 @@ function App() {
             }
           >
             📈 Gráfico de barras de sentimientos del chat
-          </button>
-          <button
-            onClick={() =>
-              fetchData(
-                fetchPlot,
-                "📊 Gráfico de barras del total de mensajes por dias"
-              )
-            }
-          >
-            📊 Gráfico de barras del total de mensajes por dias
           </button>
           <button
             onClick={() => fetchData(fetchTopEmojis, "😊 Gráfico de Emojis")}
@@ -693,6 +695,15 @@ function App() {
           </button>
           <button
             onClick={() =>
+              fetchData(fetchPlotHorasCompleto, "📊 Horas de más actividad")
+            }
+          >
+            📊 Horas de más actividad
+          </button>
+
+          {/* === GRÁFICOS LINEALES === */}
+          <button
+            onClick={() =>
               fetchData(
                 fetchPlotTimeline,
                 "📈 Gráfico Lineal de Mensajes por Año"
@@ -711,34 +722,8 @@ function App() {
           >
             📈 Gráfico Lineal de Mensajes por Día
           </button>
-          {/*<button
-            onClick={() =>
-              fetchData(
-                fetchSentimentAvgGraph,
-                "📊 Sentimientos positivos y negativos por día"
-              )
-            }
-          >
-            📊 Sentimientos positivos y negativos por día
-          </button>*/}
 
-          {/* <button
-            onClick={() =>
-              fetchData(
-                fetchGraficoEvolucionSentimientos,
-                "📅 Carga emocional por día"
-              )
-            }
-          >
-            📅 Carga emocional por día
-          </button> */}
-          <button
-            onClick={() =>
-              fetchData(fetchPlotHorasCompleto, "📊 Horas de más actividad")
-            }
-          >
-            📊 Horas de más actividad
-          </button>
+          {/* === FUNCIONALIDADES ESPECIALES === */}
           <button
             onClick={() =>
               fetchData(fetchConteoToxicidad, "📅 Palabras Tóxicas por Usuario")
@@ -759,6 +744,31 @@ function App() {
           >
             🔁 Reanudación de Conversación
           </button>
+
+          {/* === OPCIONES COMENTADAS (mantener como están) === */}
+          {/* 
+<button
+  onClick={() =>
+    fetchData(
+      fetchSentimentAvgGraph,
+      "📊 Sentimientos positivos y negativos por día"
+    )
+  }
+>
+  📊 Sentimientos positivos y negativos por día
+</button>
+
+<button
+  onClick={() =>
+    fetchData(
+      fetchGraficoEvolucionSentimientos,
+      "📅 Carga emocional por día"
+    )
+  }
+>
+  📅 Carga emocional por día
+</button>
+*/}
         </div>
       </div>
 

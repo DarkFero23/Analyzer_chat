@@ -13,9 +13,11 @@ import "./MessagesByMonthChart.css";
 
 const MessagesByMonthChart = ({ data }) => {
   if (!data || data.length === 0) {
+    console.log("📦 Data recibida en MessagesByMonthChart:", data);
+
     return <p className="no-data">No hay datos de actividad.</p>;
   }
-
+  console.log("📊 Datos recibidos en MessagesByMonthChart:", data);
   return (
     <div className="messages-by-month-chart-container">
       <h2 className="chart-title">📊 Mensajes por Mes</h2>

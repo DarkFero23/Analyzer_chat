@@ -75,8 +75,8 @@ const MessagesTimeline = ({ timelineDataDay, topDays, bottomDays }) => {
               type="monotone"
               dataKey="mensajes"
               stroke="#32CD32"
-              strokeWidth={window.innerWidth < 480 ? 1.5 : 3}
-              dot={{ fill: "#32CD32", r: window.innerWidth < 480 ? 2 : 5 }}
+              strokeWidth={window.innerWidth < 480 ? 1.5 : 0.8}
+              dot={{ fill: "#32CD32", r: window.innerWidth < 480 ? 2 : 6 }}
               activeDot={{ r: window.innerWidth < 480 ? 4 : 8 }}
               animationDuration={1200}
             />
