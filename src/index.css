@@ -551,12 +551,12 @@
 
   .sidebar-buttons::before {
     left: 0;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
   }
 
   .sidebar-buttons::after {
     right: 0;
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent);
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.4), transparent);
   }
 
   /* Ocultar barra de desplazamiento en móviles */

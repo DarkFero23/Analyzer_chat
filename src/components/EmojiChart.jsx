@@ -1,4 +1,4 @@
-// EmojiChart.jsx
+// EmojiChart.jsx el de emojis más usados
 import React from "react";
 import {
   ResponsiveContainer,

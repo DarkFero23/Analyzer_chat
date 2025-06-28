@@ -23,7 +23,7 @@ import WordCountByUser from "./components/WordCountByUser"; // ajusta el path si
 import AutorReanudaChart from "./components/AutorReanudaChart"; // o ajusta la ruta si está en otra carpeta
 
 //const API_URL = "http://localhost:5000";
-//RENDERs
+//RENDER
 const API_URL = "https://analyzer-chat-back.onrender.com";
 //
 const MySwal = withReactContent(Swal);
@@ -627,6 +627,7 @@ function App() {
           <img src="/Sylas_0.jpg" alt="Logo" className="logo" />
           <span className="logo-text">Analizador de Chat</span>
         </div>
+
         <div className="sidebar-buttons">
           <button
             onClick={() =>
@@ -777,10 +778,17 @@ function App() {
         {/* Sección de subida de archivo (solo visible si no se ha subido) */}
         {!fileUploaded && !content && (
           <div className="upload-section">
-            <h1>Subir Archivo</h1>
+            <h1>¿Listo para descubrir todo lo que dice tu chat?</h1>
+
             <p>
-              Analiza chats de WhatsApp. Exporta el chat sin archivos multimedia
-              y súbelo aquí.
+              Analizamos emociones, palabras que más usas, quién inicia las
+              conversaciones y mucho más. Obtén{" "}
+              <strong>gráficos interactivos</strong> que revelan tu estilo al
+              chatear.
+              <strong>
+                <p></p>
+                Solo necesitas subir tu chat exportado (sin multimedia).
+              </strong>
             </p>
 
             <div className="file-input-wrapper">
