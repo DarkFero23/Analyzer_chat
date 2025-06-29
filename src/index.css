@@ -9,6 +9,8 @@
 /* ======= Estructura General ======= */
 .dashboard {
   display: flex;
+  flex-direction: row;
+
   height: 100vh;
   background: #eef2f7; /* Fondo más suave */
 }
@@ -167,18 +169,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* 👉 esto centra vertical si hay poco */
+  min-height: calc(100vh - 88px); /* ⚠️ resta el alto del sidebar móvil */
 }
 
 /* ======= Sección de subida de archivos ======= */
 .upload-section {
   background: #ffffff;
-  padding: 30px;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
   width: 90%;
   max-width: 700px;
-  margin: 30px auto; /* 🟢 Centrado vertical y horizontal */
+  margin: 0px auto; /* 🟢 Centrado vertical y horizontal */
   transition: all 0.3s ease-in-out;
 }
 
@@ -696,5 +700,92 @@
     flex: 0 0 auto; /* No crezcan ni encogan */
     padding: 8px 12px; /* Un poco menos de padding */
     font-size: 14px; /* Tamaño cómodo en móvil */
+  }
+}
+.chat-export-steps {
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 15px;
+  color: #333;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.chat-export-steps h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  line-height: 1.4;
+}
+
+.chat-export-steps ol {
+  padding-left: 20px;
+  list-style: decimal;
+}
+
+.chat-export-steps li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* Responsivo en móviles */
+@media (max-width: 600px) {
+  .chat-export-steps {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .chat-export-steps h3 {
+    font-size: 16px;
+  }
+
+  .chat-export-steps li {
+    font-size: 14px;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+  margin: 40px auto;
+  color: #333;
+}
+
+.empty-state h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.empty-state p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .empty-state {
+    padding: 30px 16px;
+  }
+
+  .empty-state h2 {
+    font-size: 20px;
+  }
+
+  .empty-state p {
+    font-size: 15px;
   }
 }

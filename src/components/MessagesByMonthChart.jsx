@@ -12,18 +12,18 @@ import {
 import "./MessagesByMonthChart.css";
 
 const MessagesByMonthChart = ({ data }) => {
-  if (!data || data.length === 0) {
-    console.log("📦 Data recibida en MessagesByMonthChart:", data);
+  console.log("📊 Datos recibidos en MessagesByMonthChart:", data);
 
+  if (!data || data.length === 0) {
+    console.log("📦 No hay datos para mostrar");
     return <p className="no-data">No hay datos de actividad.</p>;
   }
-  console.log("📊 Datos recibidos en MessagesByMonthChart:", data);
   return (
     <div className="messages-by-month-chart-container">
       <h2 className="chart-title">📊 Mensajes por Mes</h2>
       {/* Wrapper que controla la altura según el tamaño de pantalla */}
       <div className="chart-wrapper">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={320}>
           <BarChart
             data={data}
             margin={{ top: 20, right: 20, left: 20, bottom: 80 }}
@@ -39,8 +39,15 @@ const MessagesByMonthChart = ({ data }) => {
               textAnchor="end"
               padding={{ left: 10, right: 10 }}
             />
-            <YAxis tick={{ fill: "#333", fontSize: 12 }} />
-            <Tooltip cursor={{ fill: "rgba(50, 205, 50, 0.2)" }} />
+            <YAxis
+              tick={{ fill: "#333", fontSize: 12 }}
+              domain={[0, "auto"]}
+              allowDecimals={false}
+            />
+            <Tooltip
+              cursor={{ fill: "rgba(50, 205, 50, 0.2)" }}
+              formatter={(value) => `${value} mensajes`}
+            />
             <Bar
               dataKey="mensajes"
               fill="#4CAF50"
@@ -55,5 +62,4 @@ const MessagesByMonthChart = ({ data }) => {
     </div>
   );
 };
-
 export default MessagesByMonthChart;

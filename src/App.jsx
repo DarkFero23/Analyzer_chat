@@ -624,7 +624,7 @@ function App() {
       <div className="sidebar">
         {/* —————— HEADER (logo + título) —————— */}
         <div className="sidebar-header">
-          <img src="/Sylas_0.jpg" alt="Logo" className="logo" />
+          <img src="/tralalero.jpg  " alt="Logo" className="logo" />
           <span className="logo-text">Analizador de Chat</span>
         </div>
 
@@ -790,7 +790,40 @@ function App() {
                 Solo necesitas subir tu chat exportado (sin multimedia).
               </strong>
             </p>
-
+            <div className="chat-export-steps">
+              <h3>📲 ¿Cómo exportar tu chat de WhatsApp?</h3>
+              <ol>
+                <li>Abre la conversación de WhatsApp que quieres analizar.</li>
+                <li>
+                  Toca los <strong>tres puntos ⋮</strong> en la esquina superior
+                  derecha.
+                </li>
+                <li>
+                  Selecciona <strong>"Más"</strong> y luego{" "}
+                  <strong>"Exportar chat"</strong>.
+                </li>
+                <li>
+                  Cuando te pregunte, elige{" "}
+                  <strong>“Sin archivos multimedia”</strong>.
+                </li>
+                <li>
+                  Selecciona “Guardar en Archivos” o “Enviar por correo a ti
+                  mismo”.
+                </li>
+                <li>
+                  Asegúrate de tener el archivo <strong>.zip</strong> guardado
+                  en tu dispositivo.
+                </li>
+                <li>
+                  Regresa a esta página y{" "}
+                  <strong>haz clic en “Subir archivo”</strong>.
+                </li>
+                <li>
+                  Busca el archivo .zip que guardaste y súbelo para empezar el
+                  análisis.
+                </li>
+              </ol>
+            </div>
             <div className="file-input-wrapper">
               <input
                 type="file"
@@ -825,8 +858,12 @@ function App() {
         {/* Mostrar mensaje solo después de subir un archivo y antes de presionar un botón */}
         {fileUploaded && showMessage && !content && (
           <div className="empty-state">
-            <h2>👋 ¡Bienvenido!</h2>
-            <p>Haga click en un botón para probar la app.</p>
+            <h2>🎉Bienvenido</h2>
+            <p>
+              Ahora puedes explorar tus estadísticas: emociones, palabras más
+              usadas, quién habla más y mucho más.{" "}
+              <strong>Haz clic en alguno los botones de para empezar.</strong>
+            </p>
           </div>
         )}
 
